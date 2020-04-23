@@ -1,13 +1,42 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "commandes")
 public class Voyage {
 
-    private Ville v1,v2;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_commande")
+	private int id;
+	
+	@Column(name = "ville1")
+    private Ville v1;
+    
+    @Column(name = "ville2")
+    private Ville v2;
+    
+    @Column(name = "transport")
     private Transport t;
+    
+    @Column
     private double prix;
-    String duree;
-
-
+    
+    @Column
+    private String duree;
+    
+    @ManyToOne
+    @Column(name = "id_client")
+    private Utilisateur utilisateur;
+    
+    
     public Voyage(Ville v1, Ville v2, Transport t, double prix, String duree) {
         this.v1 = v1;
         this.v2 = v2;
@@ -48,7 +77,7 @@ public class Voyage {
         return t;
     }
 
-    public void setT(Transport t) {
+	public void setT(Transport t) {
         this.t = t;
     }
 
@@ -68,6 +97,21 @@ public class Voyage {
         this.duree = duree;
     }
 
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
 
     private double calculDuree(Ville v1, Ville v2, Transport t) {
         return calculDistance(v1,v2)/t.getVitesse();

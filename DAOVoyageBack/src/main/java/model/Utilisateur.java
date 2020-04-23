@@ -12,9 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import dao.jdbc.DAOVilleJDBC;
 
 @Entity
 @Table(name = "Utilisateur")
@@ -38,6 +37,9 @@ public abstract class Utilisateur {
 	
 	@Column(name = "type_compte", insertable = false, updatable = false)
 	protected String typeCompte;
+	
+	@OneToMany(mappedBy = "utilisateur")
+	private List<Voyage> voyages = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -77,6 +79,14 @@ public abstract class Utilisateur {
 
 	public void setTypeCompte(String typeCompte) {
 		this.typeCompte = typeCompte;
+	}
+
+	public List<Voyage> getVoyages() {
+		return voyages;
+	}
+
+	public void setVoyages(List<Voyage> voyages) {
+		this.voyages = voyages;
 	}
 	
 	
