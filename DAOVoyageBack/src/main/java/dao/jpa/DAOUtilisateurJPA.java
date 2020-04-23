@@ -56,14 +56,14 @@ public class DAOUtilisateurJPA extends DAOJpa implements DAOUtilisateur {
 	@Override
 	public Utilisateur selectByAdresseMail(String adresseMail) {
 		try {
-			return this.em.createQuery("select c from Utilisateur c where c.adresseMail=?1", Client.class).setParameter(1, adresseMail).getSingleResult();
+			return this.em.createQuery("select c from Utilisateur c where c.adresseMail=?1", Utilisateur.class).setParameter(1, adresseMail).getSingleResult();
 		} catch (Exception e) {return null;}
 	}
 
 	@Override
 	public Utilisateur selectByLoginPassword(String login, String password) {
 		try {
-			return this.em.createQuery("select c from Utilisateur c where c.login=?1 and c.password=?2", Client.class).setParameter(1, login).setParameter(2, password).getSingleResult();
+			return this.em.createQuery("select c from Utilisateur c where c.login=?1 and c.password=?2", Utilisateur.class).setParameter(1, login).setParameter(2, password).getSingleResult();
 		} catch (Exception e) {return null;}
 	}
 
