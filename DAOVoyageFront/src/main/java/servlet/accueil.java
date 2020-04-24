@@ -32,15 +32,15 @@ public class accueil extends HttpServlet {
 				request.getSession().setAttribute("login", u.getLogin());
 				request.getSession().setAttribute("id", u.getId());
 				request.getSession().setAttribute("isConnect", "Y");
-			} else {request.getSession().setAttribute("error", "Y");}
-			
-			if (u.getTypeCompte().equals("Admin")) {
-				this.getServletContext().getRequestDispatcher("/admin").forward(request, response);
-			}
-			else if (u.getTypeCompte().equals("Client")) {
-				doGet(request, response);
-			}
-			
+				if (u.getTypeCompte().equals("Admin")) {
+					this.getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
+				}
+				else if (u.getTypeCompte().equals("Client")) {
+					doGet(request, response);
+				}
+				
+			} else {request.getSession().setAttribute("error", "Y"); doGet(request, response);}
+						
 		} else if (action.equals("seDeconnecter")) {
 			Site.getInstance().getPanier().clear();
 			request.getSession().invalidate();

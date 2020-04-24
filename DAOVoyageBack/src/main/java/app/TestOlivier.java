@@ -13,11 +13,13 @@ public class TestOlivier {
 		Ville vill = Site.getInstance().getDaoVille().selectByNom("Toulouse");
 		System.out.println(vill);
 		List<Ville> villes = Site.getInstance().getDaoVille().selectAll();
-
+		
+		System.out.println(villes.size());
 		for(Ville v : villes) {
 			System.out.println(v);
 		}
 
+		
 	}
 
 }

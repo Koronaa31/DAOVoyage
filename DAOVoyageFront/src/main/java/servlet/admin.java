@@ -17,34 +17,18 @@ import model.Ville;
 public class admin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String action = request.getParameter("action");
-		if(action.equals("ajoutVille")) {
-			String nomVille = request.getParameter("nom_ville");
-			double latitude = Double.parseDouble(request.getParameter("latitude"));
-			double longitude = Double.parseDouble(request.getParameter("longitude"));
-			
-			Ville ville = new Ville(nomVille,latitude,longitude);
-			
-			Site.getInstance().ajoutVille(ville);
+		if(action.equals("modifVille")) {
+			this.getServletContext().getRequestDispatcher("/adminVille").forward(request, response);
 		}
-		else if(action.equals("ajoutTransport")) {
-			String nomTransport = request.getParameter("nom_transport");
-			double prixAuKm = Double.parseDouble(request.getParameter("prix"));
-			double vitesse = Double.parseDouble(request.getParameter("vitesse"));
-			
-			Transport t = new Transport(nomTransport,prixAuKm,vitesse);
-			
-			Site.getInstance().ajoutTransport(t);
+		else if(action.equals("modifTransport")) {
+			this.getServletContext().getRequestDispatcher("/adminTransport").forward(request, response);
 		}
-		
-		
-		doGet(request, response);
 	}
 
 }

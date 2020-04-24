@@ -113,6 +113,10 @@ main {height:100%;}
 	text-decoration:underline;
 }
 
+.demiePage {
+	padding-left: 30px;
+}
+
 .btnAdmin {
 	padding-left: 15px;
 }
@@ -166,6 +170,16 @@ footer {
 		font-size:13px;
 	}
 	
+	.demiePage {
+		padding-left: 15px;
+	}
 	
-	
+	.centre h1 {
+		font-size: 40px;
+	}
+		
+	.demiePage h3 {
+		font-size: 20px;
+	}
+		
 }
