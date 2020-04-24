@@ -53,7 +53,7 @@ public class DAOTransportJPA extends DAOJpa implements DAOTransport {
 	@Override
 	public Transport selectByNom(String nom) {
 		try {
-			return this.em.createQuery("select t from Transport t where v.nom=?1", Transport.class).setParameter(1, nom).getSingleResult();
+			return this.em.createQuery("select t from Transport t where t.nom=?1", Transport.class).setParameter(1, nom).getSingleResult();
 		} catch (Exception e) {return null;}
 	}
 

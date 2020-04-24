@@ -37,12 +37,17 @@ public class accueil extends HttpServlet {
 			if (u.getTypeCompte().equals("Admin")) {
 				this.getServletContext().getRequestDispatcher("/admin").forward(request, response);
 			}
+			else if (u.getTypeCompte().equals("Client")) {
+				doGet(request, response);
+			}
 			
 		} else if (action.equals("seDeconnecter")) {
 			Site.getInstance().getPanier().clear();
 			request.getSession().invalidate();
+			
+			doGet(request, response);
 		}
-		doGet(request, response);
+		
 	}
 
 }
