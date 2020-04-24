@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,12 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Client;
 import model.Site;
+import model.Ville;
 
 
 @WebServlet("/accueil")
 public class accueil extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Ville> villes = Site.getInstance().getDaoVille().selectAll();
+		ArrayList nomsVilles = new ArrayList<>();
+		for(Ville v : villes) {
+			nomsVilles.add(v.getNom());
+			}
+		/*
+		List<Transport> transports = Site.getInstance().getDaoTransport().selectAll();
+		ArrayList nomsTransports = new ArrayList<>();
+		for(Transport t : transports) {
+			nomsTransports.add(t.getNom());												//En attente de la classe Transport
+			}
+		request.getSession().setAttribute("transports", nomsTransports);
+		*/
+		request.getSession().setAttribute("villes1", nomsVilles);
+		request.getSession().setAttribute("villes2", nomsVilles);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 	}
 
