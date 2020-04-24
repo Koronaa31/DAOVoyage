@@ -67,4 +67,11 @@ public class DAOUtilisateurJPA extends DAOJpa implements DAOUtilisateur {
 		} catch (Exception e) {return null;}
 	}
 
+	@Override
+	public Utilisateur selectByLogin(String login) {
+		try {
+			return this.em.createQuery("select c from Utilisateur c where c.login=?1", Utilisateur.class).setParameter(1, login).getSingleResult();
+		} catch (Exception e) {return null;}
+	}
+
 }

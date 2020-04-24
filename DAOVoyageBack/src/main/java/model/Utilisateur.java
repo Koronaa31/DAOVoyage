@@ -35,7 +35,7 @@ public abstract class Utilisateur {
 	
 	@Column(name = "type_compte", insertable = false, updatable = false)
 	protected String typeCompte;
-
+	
 	public int getId() {
 		return id;
 	}

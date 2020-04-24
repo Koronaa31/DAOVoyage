@@ -44,6 +44,25 @@
 				</div>
 				
 				<c:if test="${sessionScope.isConnect == 'Y'}">
+					<form method="POST" action="cagnotte">
+	  					<div class="form-row align-items-center">
+							<div class="col-auto my-1">
+						    	<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+						     	<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="action">
+						       		<option selected>Cagnotte</option>
+						       		<option value="accueilCreation">Création</option>
+						       		<option value="accueilParticipation">Participation</option>
+						       		<option value="archives">Archives</option>
+						     	</select>
+						  	</div>
+						  	<div class="col-auto my-1">
+						     	<button type="submit" class="btn btn-success">Soumettre</button>
+						   	</div>
+						</div>
+					</form>
+				</c:if>
+
+				<c:if test="${sessionScope.isConnect == 'Y'}">
 					<div id="seDeconnecter">
 						<form method="POST" action="accueil">
 							<input type="hidden" name="action" value="seDeconnecter">

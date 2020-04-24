@@ -141,4 +141,11 @@ public class DAOClientJDBC implements DAOUtilisateur {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public Utilisateur selectByLogin(String login) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

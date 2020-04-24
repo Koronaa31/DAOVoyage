@@ -19,11 +19,11 @@ public class Voyage {
 	private int id;
 	
 	@ManyToOne
-	@JoinColumn(name = "ville1")
+	@JoinColumn(name = "id_ville_depart")
     private Ville v1;
 	
     @ManyToOne
-    @JoinColumn(name = "ville2")
+    @JoinColumn(name = "id_ville_arrivee")
     private Ville v2;
     
     @ManyToOne
@@ -43,8 +43,18 @@ public class Voyage {
     @JoinColumn(name = "id_client")
     private Client client;
 
+    	
     
-    public Voyage(Ville v1, Ville v2, Transport t, double prix, String duree) {
+    public Voyage(Ville v1, Ville v2, Transport t, Client client) {
+		this.v1 = v1;
+		this.v2 = v2;
+		this.t = t;
+		this.client = client;
+        prix = calculPrix(v1,v2,t);
+        duree = calculDureeHMin(v1,v2,t);
+	}
+
+	public Voyage(Ville v1, Ville v2, Transport t, double prix, String duree) {
         this.v1 = v1;
         this.v2 = v2;
         this.t = t;

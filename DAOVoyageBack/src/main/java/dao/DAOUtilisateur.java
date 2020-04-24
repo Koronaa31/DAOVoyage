@@ -8,4 +8,6 @@ public interface DAOUtilisateur extends DAO<Utilisateur,Integer> {
 	
 	public Utilisateur selectByLoginPassword(String login, String password);
 	
+	public Utilisateur selectByLogin(String login);
+	
 }

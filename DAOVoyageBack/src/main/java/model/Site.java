@@ -6,10 +6,13 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import dao.DAOCagnotte;
 import dao.DAOTransport;
 import dao.DAOUtilisateur;
 import dao.DAOVille;
 import dao.DAOVoyage;
+import dao.jpa.DAOCagnotteJPA;
+import dao.jpa.DAOJpa;
 import dao.jdbc.DAOVilleJDBC;
 import dao.jpa.DAOTransportJPA;
 import dao.jpa.DAOUtilisateurJPA;
@@ -23,9 +26,10 @@ public class Site {
 	private Connection connection = null;
 	private static Site _instance = null;
 
-	private static DAOUtilisateur daoC = null;
-	private static DAOVille daoV = null;
-	private static DAOTransport daoT = null;
+	private static DAOUtilisateur daoU;
+	private static DAOVille daoV;
+	private static DAOTransport daoT;
+	private static DAOCagnotte daoC;
 	private static DAOVoyage daoVoyage = null;
 
 	//-----------------------------------------------------//
@@ -63,8 +67,8 @@ public class Site {
 	//-----------------------------------------------------//
 
 	public static DAOUtilisateur getDaoUtilisateur() {
-		if (daoC == null) {daoC = new DAOUtilisateurJPA();}	//Changer ici pour passer en JPA/JDBC
-		return daoC;
+		if (daoU == null) {daoU = new DAOUtilisateurJPA();}	//Changer ici pour passer en JPA/JDBC
+		return daoU;
 	}
 
 	public static DAOVille getDaoVille() {
@@ -80,6 +84,11 @@ public class Site {
 	public static DAOVoyage getDaoVoyage() {
 		if (daoVoyage == null) {daoVoyage = new DAOVoyageJPA();}	//Changer ici pour passer en JPA/JDBC
 		return daoVoyage;
+	}
+	
+	public static DAOCagnotte getDaoCagnotte() {
+		if (daoC == null) {daoC = new DAOCagnotteJPA();}	//Changer ici pour passer en JPA/JDBC
+		return daoC;
 	}
 
 	public static Site getInstance() {
@@ -139,7 +148,7 @@ public class Site {
 	}
 
 	public void paiement () {
-		System.out.println("Paiement effectué ! Merci Jordan.");
+		System.out.println("Paiement effectuï¿½ ! Merci Jordan.");
 		Site.getInstance().getPanier().clear();
 	}
 	
