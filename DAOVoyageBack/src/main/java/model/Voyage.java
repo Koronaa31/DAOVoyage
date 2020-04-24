@@ -1,13 +1,49 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "voyage")
 public class Voyage {
 
-    private Ville v1,v2;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
+	
+	@ManyToOne
+	@JoinColumn(name = "ville1")
+    private Ville v1;
+	
+    @ManyToOne
+    @JoinColumn(name = "ville2")
+    private Ville v2;
+    
+    @ManyToOne
+    @JoinColumn(name = "transport")
     private Transport t;
+    
+    @Column(name = "prix", nullable = false)
     private double prix;
+    
+    @Column(name = "duree", length = 50, nullable = false)
     private String duree;
+    
+    @Column(name = "statut", length = 50, nullable = false)
+    private String statut;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_utilisateur")
+    private Utilisateur utilisateur;
 
-
+    
     public Voyage(Ville v1, Ville v2, Transport t, double prix, String duree) {
         this.v1 = v1;
         this.v2 = v2;
@@ -23,12 +59,20 @@ public class Voyage {
         prix = calculPrix(v1,v2,t);
         duree = calculDureeHMin(v1,v2,t);
     }
-
+    
     public Voyage() {
     	
     }
     
-    public Ville getV1() {
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Ville getV1() {
         return v1;
     }
 
@@ -68,8 +112,24 @@ public class Voyage {
         this.duree = duree;
     }
 
+    public String getStatut() {
+		return statut;
+	}
+    
+	public void setStatut(String statut) {
+		this.statut = statut;
+	}
 
-    private double calculDuree(Ville v1, Ville v2, Transport t) {
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
+
+	private double calculDuree(Ville v1, Ville v2, Transport t) {
         return calculDistance(v1,v2)/t.getVitesse();
     }
     

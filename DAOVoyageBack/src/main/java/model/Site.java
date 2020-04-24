@@ -9,10 +9,12 @@ import java.util.List;
 import dao.DAOTransport;
 import dao.DAOUtilisateur;
 import dao.DAOVille;
+import dao.DAOVoyage;
 import dao.jdbc.DAOVilleJDBC;
 import dao.jpa.DAOTransportJPA;
 import dao.jpa.DAOUtilisateurJPA;
 import dao.jpa.DAOVilleJPA;
+import dao.jpa.DAOVoyageJPA;
 
 public class Site {
 
@@ -24,6 +26,7 @@ public class Site {
 	private static DAOUtilisateur daoC = null;
 	private static DAOVille daoV = null;
 	private static DAOTransport daoT = null;
+	private static DAOVoyage daoVoyage = null;
 
 	//-----------------------------------------------------//
 	//-----------------------------------------------------//
@@ -72,6 +75,11 @@ public class Site {
 	public static DAOTransport getDaoTransport() {
 		if (daoT == null) {daoT = new DAOTransportJPA();}	//Changer ici pour passer en JPA/JDBC
 		return daoT;
+	}
+	
+	public static DAOVoyage getDaoVoyage() {
+		if (daoVoyage == null) {daoVoyage = new DAOVoyageJPA();}	//Changer ici pour passer en JPA/JDBC
+		return daoVoyage;
 	}
 
 	public static Site getInstance() {
@@ -131,7 +139,7 @@ public class Site {
 	}
 
 	public void paiement () {
-		System.out.println("Paiement effectuï¿½ ! Merci Jordan.");
+		System.out.println("Paiement effectué ! Merci Jordan.");
 		Site.getInstance().getPanier().clear();
 	}
 	
