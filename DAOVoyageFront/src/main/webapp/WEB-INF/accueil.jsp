@@ -67,23 +67,20 @@
 				<form class="form-group row" method="POST" action="recherche">
 					<div class="col-4">
 						Ville de départ
-						<select name="v1" class="form-control formWidth">
-							<option value="Toulouse">Toulouse</option>
-							<option value="Paris">Paris</option>
-							<option value="Lyon">Lyon</option>
-							<option value="Strasbourg">Strasbourg</option>
-							<option value="Nice">Nice</option>
+						<select required onchange="actVille2()" id="choixVille1" name="v1" class="form-control formWidth">
+							<option selected value="N">Sélectionnez une ville de départ</option>
+							<c:forEach items="${villes}" var="v">
+								<option value="${v}">${v}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="col-4">
 						Ville d'arrivée
-						<select name="v2" class="form-control formWidth">
+						<select id="v2" name="v2" class="form-control formWidth">
 							<option selected value="N">Toutes</option>
-							<option value="Toulouse">Toulouse</option>
-							<option value="Paris">Paris</option>
-							<option value="Lyon">Lyon</option>
-							<option value="Strasbourg">Strasbourg</option>
-							<option value="Nice">Nice</option>
+							<c:forEach items="${villes2}" var="v">
+								<option value="${v}">${v}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="col-4">
@@ -110,4 +107,13 @@
 			<div class="col-4"><a href="inscription">Conditions de vente</a></div>
 		</footer>
 	</body>
+	
+	<script>
+		function actuVille2() {
+			alert(villes1);
+			alert(villes2);
+		};
+		
+		
+	</script>
 </html>
