@@ -76,10 +76,10 @@
 
 					<c:forEach items="${ recherche }" var="voy">
 						<tr>
-							<td> <input type="button" class="addPanier btn btn-outline-info" v1="${voy.v1.nom}" v2="${voy.v2.nom}" t="${voy.t}" value="Ajouter au panier"> </td>
+							<td> <input type="button" class="addPanier btn btn-outline-info" v1="${voy.v1.nom}" v2="${voy.v2.nom}" t="${voy.t.nom}" value="Ajouter au panier"> </td>
 							<td>${ voy.v1.nom } <input type="hidden" value="${voy.v1.nom}"/> </td>
 							<td>${ voy.v2.nom }</td>
-							<td>${ voy.t }</td>
+							<td>${ voy.t.nom }</td>
 							<td>${ voy.duree }</td>
 							<td>${ voy.prix } €</td>
 						</tr>

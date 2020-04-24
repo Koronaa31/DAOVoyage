@@ -1,12 +1,19 @@
 package model;
 
+import java.util.List;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("Client")
 public class Client extends Utilisateur {
 
+	@OneToMany(mappedBy = "client")
+	private List<Voyage> voyages;
+	
+	
 	public Client() {
 		
 	}
@@ -24,6 +31,14 @@ public class Client extends Utilisateur {
 		this.password = password;
 		this.adresseMail = adresseMail;
 		this.typeCompte = "Client";
+	}
+	
+	public List<Voyage> getVoyages() {
+		return voyages;
+	}
+
+	public void setVoyages(List<Voyage> voyages) {
+		this.voyages = voyages;
 	}
 
 	@Override

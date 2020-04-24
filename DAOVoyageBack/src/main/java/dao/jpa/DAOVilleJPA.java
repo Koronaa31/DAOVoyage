@@ -45,7 +45,7 @@ public class DAOVilleJPA extends DAOJpa implements DAOVille {
 			VilleToRemove.setId(id);
 
 			this.em.getTransaction().begin();
-			this.em.remove(this.em.merge(VilleToRemove));		//On attache car le Ville n'est pas attaché
+			this.em.remove(this.em.merge(VilleToRemove));		//On attache car la Ville n'est pas attachée
 			this.em.getTransaction().commit();
 		}
 		catch (Exception e) {this.em.getTransaction().rollback();System.out.println("delete Ville pas marcher");}

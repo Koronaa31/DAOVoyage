@@ -36,9 +36,6 @@ public abstract class Utilisateur {
 	@Column(name = "type_compte", insertable = false, updatable = false)
 	protected String typeCompte;
 
-	@OneToMany(mappedBy = "utilisateur")
-	private List<Voyage> voyages;
-	
 	public int getId() {
 		return id;
 	}

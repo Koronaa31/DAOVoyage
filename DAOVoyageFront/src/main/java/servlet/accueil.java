@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,12 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import model.Client;
 import model.Site;
 import model.Utilisateur;
+import model.Ville;
 
 
 @WebServlet("/accueil")
 public class accueil extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Ville> villes = Site.getInstance().getDaoVille().selectAll();
+		ArrayList nomsVilles = new ArrayList();
+		for(Ville v : villes) {
+			nomsVilles.add(v.getNom());
+			}
+		request.getSession().setAttribute("villes1", nomsVilles);
+		request.getSession().setAttribute("villes2", nomsVilles);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 	}
 
@@ -35,10 +45,11 @@ public class accueil extends HttpServlet {
 				if (u.getTypeCompte().equals("Admin")) {
 					this.getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
 				}
-				else if (u.getTypeCompte().equals("Client")) {
-					doGet(request, response);
-				}
-				
+			else if (u.getTypeCompte().equals("Client")) {
+				Client client = (Client) u;
+				request.getSession().setAttribute("client", client);
+				doGet(request, response);
+			}
 			} else {request.getSession().setAttribute("error", "Y"); doGet(request, response);}
 						
 		} else if (action.equals("seDeconnecter")) {

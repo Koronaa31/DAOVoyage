@@ -84,7 +84,7 @@
 							</td>
 							<td>${voy.v1.nom}</td>
 							<td>${voy.v2.nom}</td>
-							<td>${voy.t}</td>
+							<td>${voy.t.nom}</td>
 							<td>${voy.duree}</td>
 							<td>${voy.prix} €</td>
 						</tr>
@@ -99,8 +99,8 @@
 				<div class="row">
 					<div class="col-6">			
 						<form action="panier" method="POST">
-           					 <input type="hidden" name="action" value="clearPanier"/>
-           					 <input type="submit" value="Valider mon panier et payer" class="payer btn btn-info" />
+           					 <input type="hidden" name="action" value="paiement"/>
+           					 <input type="submit" name="action" value="Payer ma commande" class="payer btn btn-info" />
        					 </form>
 					</div>
 					<div class="col-6">			
@@ -122,7 +122,7 @@
 	//-----------------------------------------------------------------//
 	//-----------------------------------------------------------------//
  -->	
-	
+	<!-- 
 	<script>
 	
 	$(".payer").click(function(){
@@ -131,5 +131,5 @@
 	});
 	
 	</script>
-
+-->
 </html>

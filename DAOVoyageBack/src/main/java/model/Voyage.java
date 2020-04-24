@@ -40,8 +40,8 @@ public class Voyage {
     private String statut;
     
     @ManyToOne
-    @JoinColumn(name = "id_utilisateur")
-    private Utilisateur utilisateur;
+    @JoinColumn(name = "id_client")
+    private Client client;
 
     
     public Voyage(Ville v1, Ville v2, Transport t, double prix, String duree) {
@@ -120,14 +120,13 @@ public class Voyage {
 		this.statut = statut;
 	}
 
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
+	public Client getClient() {
+		return client;
 	}
 
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
+	public void setClient(Client client) {
+		this.client = client;
 	}
-
 
 	private double calculDuree(Ville v1, Ville v2, Transport t) {
         return calculDistance(v1,v2)/t.getVitesse();
@@ -150,10 +149,13 @@ public class Voyage {
     	return 128*Math.sqrt(Math.pow(v1.getLongitude()-v2.getLongitude(),2) + Math.pow(v1.getLatitude()-v2.getLatitude(),2));
     }
 
+	@Override
+	public String toString() {
+		return "Voyage [id=" + id + ", v1=" + v1 + ", v2=" + v2 + ", t=" + t + ", prix=" + prix + ", duree=" + duree
+				+ ", statut=" + statut + ", client=" + client + "]";
+	}
 
-    @Override
-    public String toString() {
-        return "Voyage [v1=" + v1 + ", v2=" + v2 + ", t=" + t + ", prix=" + prix + ", duree=" + duree + "]";
-    }
+
+   
 
 }

@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -50,12 +52,32 @@ public class panier extends HttpServlet {
 			Voyage voy = new Voyage(v1,v2,t);
 			
 			Site.getInstance().choix(voy);
-		
-		}else if(action.equals("clearPanier"))
-        {
-            Site.getInstance().getPanier().clear();
-            this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
         }
+		else if(action.equals("paiement"))
+		{	
+			List<Voyage> commande = Site.getInstance().getPanier();
+			for(Voyage v : commande)
+			{
+			Ville v1 = v.getV1();
+			Ville v2 = v.getV2();
+			Transport t = v.getT();
+			
+			Voyage voyage = new Voyage(v1,v2,t);
+			voyage.setStatut("Commande");
+			System.out.println("Voyage 1 : \n"+voyage);
+			
+			//int id = (int) request.getSession().getAttribute("id");
+			//Client client = (Client) Site.getInstance().getDaoUtilisateur().selectById(id);
+			Client client = (Client) request.getSession().getAttribute("client");
+	        voyage.setClient(client);
+	        System.out.println(client);
+			System.out.println("Voyage 2 : \n"+voyage);
+	        
+			Site.getInstance().getDaoVoyage().insert(voyage);
+			}
+			
+			Site.getInstance().getPanier().clear();
+		}
 		
 		doGet(request,response);
 	}
