@@ -18,4 +18,5 @@ public class Admin extends Utilisateur {
 		this.adresseMail = adresseMail;
 		this.typeCompte = "Admin";
 	}
+	
 }

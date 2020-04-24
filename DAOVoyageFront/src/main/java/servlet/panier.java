@@ -45,7 +45,7 @@ public class panier extends HttpServlet {
 			String transport = request.getParameter("t");	
 			Ville v1 = Site.getInstance().getDaoVille().selectByNom(villeDep);
 			Ville v2 = Site.getInstance().getDaoVille().selectByNom(villeArr);
-			Transport t = Transport.valueOf(transport);
+			Transport t = Site.getInstance().getDaoTransport().selectByNom(transport);
 			
 			Voyage voy = new Voyage(v1,v2,t);
 			

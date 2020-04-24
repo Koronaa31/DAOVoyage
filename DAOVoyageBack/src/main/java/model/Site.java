@@ -6,9 +6,11 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import dao.DAOTransport;
 import dao.DAOUtilisateur;
 import dao.DAOVille;
 import dao.jdbc.DAOVilleJDBC;
+import dao.jpa.DAOTransportJPA;
 import dao.jpa.DAOUtilisateurJPA;
 import dao.jpa.DAOVilleJPA;
 
@@ -21,6 +23,7 @@ public class Site {
 
 	private static DAOUtilisateur daoC = null;
 	private static DAOVille daoV = null;
+	private static DAOTransport daoT = null;
 
 	//-----------------------------------------------------//
 	//-----------------------------------------------------//
@@ -65,6 +68,11 @@ public class Site {
 		if (daoV == null) {daoV = new DAOVilleJPA();}	//Changer ici pour passer en JPA/JDBC
 		return daoV;
 	}
+	
+	public static DAOTransport getDaoTransport() {
+		if (daoT == null) {daoT = new DAOTransportJPA();}	//Changer ici pour passer en JPA/JDBC
+		return daoT;
+	}
 
 	public static Site getInstance() {
 		if(_instance==null) {
@@ -87,12 +95,13 @@ public class Site {
 
 	public void research(Ville v1){
 		List<Ville> ville = getDaoVille().selectAll();
+		List<Transport> transport = getDaoTransport().selectAll();
 
 		for(Ville v2 : ville)
 		{
 			if(!v2.getNom().equals(v1.getNom()))
 			{
-				for (Transport t : Transport.values())
+				for (Transport t : transport)
 				{
 					Voyage voy = new Voyage(v1,v2,t);
 					Site.getInstance().voyage.add(voy);
@@ -102,8 +111,8 @@ public class Site {
 	}
 
 	public void research(Ville v1,Ville v2) {
-
-		for (Transport t : Transport.values())
+		List<Transport> transport = getDaoTransport().selectAll();
+		for (Transport t : transport)
 		{
 			Voyage v = new Voyage(v1,v2,t);
 			Site.getInstance().voyage.add(v);
@@ -122,8 +131,16 @@ public class Site {
 	}
 
 	public void paiement () {
-		System.out.println("Paiement effectué ! Merci Jordan.");
+		System.out.println("Paiement effectuï¿½ ! Merci Jordan.");
 		Site.getInstance().getPanier().clear();
+	}
+	
+	public void ajoutVille(Ville v) {
+		getDaoVille().insert(v);
+	}
+	
+	public void ajoutTransport(Transport t) {
+		getDaoTransport().insert(t);
 	}
 
 	public void listVilleDispo() {
@@ -135,6 +152,14 @@ public class Site {
 		}
 	}
 
+	public void listTransportDispo() {
+		List<Transport> transport = getDaoTransport().selectAll();
+		int i = 0;
+		for (Transport t : transport) {
+			i++;
+			System.out.println(i+"- "+t.getNom());
+		}
+	}
 
 
 	public Connection getConnection() throws ClassNotFoundException, SQLException {

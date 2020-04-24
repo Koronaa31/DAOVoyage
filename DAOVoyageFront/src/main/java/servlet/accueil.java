@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.Client;
 import model.Site;
+import model.Utilisateur;
 
 
 @WebServlet("/accueil")
@@ -26,12 +27,17 @@ public class accueil extends HttpServlet {
 		if (action.equals("seConnecter")) {
 			String login = request.getParameter("login");
 			String password = request.getParameter("password");
-			Client c = (Client) Site.getInstance().checkConnect(login, password);
-			if (c != null) {
-				request.getSession().setAttribute("login", c.getLogin());
-				request.getSession().setAttribute("id", c.getId());
+			Utilisateur u = Site.getInstance().checkConnect(login, password);
+			if (u != null) {
+				request.getSession().setAttribute("login", u.getLogin());
+				request.getSession().setAttribute("id", u.getId());
 				request.getSession().setAttribute("isConnect", "Y");
 			} else {request.getSession().setAttribute("error", "Y");}
+			
+			if (u.getTypeCompte().equals("Admin")) {
+				this.getServletContext().getRequestDispatcher("/admin").forward(request, response);
+			}
+			
 		} else if (action.equals("seDeconnecter")) {
 			Site.getInstance().getPanier().clear();
 			request.getSession().invalidate();

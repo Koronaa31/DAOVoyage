@@ -1,23 +1,15 @@
 package app;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import dao.DAOUtilisateur;
-import dao.jpa.DAOJpa;
-import model.Client;
 import model.Site;
+import model.Transport;
 
 public class TestEmf {
 
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 
-		DAOUtilisateur daoC = Site.getInstance().getDaoUtilisateur();
-		
-		Client c = new Client("jojo", "jj", "a@a.a");
-		Site.getInstance().getDaoUtilisateur().insert(c);
+		Transport t = new Transport("Cheval",0.07,30);
+		Site.getInstance().getDaoTransport().insert(t);
 		
 		
 		

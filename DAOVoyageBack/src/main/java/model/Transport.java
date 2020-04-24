@@ -1,23 +1,91 @@
 package model;
 
-public enum Transport {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-    Avion(0.147,920),Train(0.176,400),Bus(0.048,80),Cheval(0.07,30),PoussePousse(0.02,5);
+@Entity
+@Table(name="transport")
+public class Transport {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+	private int id;
+    
+    @Column(name="nom")
+    private String nom;
+    
+    @Column(name="prix_au_km")
     private double prixAuKm;
+    
+    @Column(name="vitesse")
     private double vitesse; //en km/h
 
-    private Transport(double prixAuKm, double vitesse) {
+    
+    //-------------------------------------------------//
+    //----------------Constructeurs--------------------//
+    //-------------------------------------------------//
+    
+    public Transport() {
+    	
+    }
+    
+    public Transport(String nom, double prixAuKm, double vitesse) {
+    	this.nom=nom;
         this.prixAuKm=prixAuKm;
         this.vitesse=vitesse;
     }
 
-    public double getPrixAuKm() {
-        return prixAuKm;
-    }
+    //-------------------------------------------------//
+    //----------------getters and setters--------------//
+    //-------------------------------------------------//
+    
+	public int getId() {
+		return id;
+	}
 
-    public double getVitesse() {
-        return vitesse;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public double getPrixAuKm() {
+		return prixAuKm;
+	}
+
+	public void setPrixAuKm(double prixAuKm) {
+		this.prixAuKm = prixAuKm;
+	}
+
+	public double getVitesse() {
+		return vitesse;
+	}
+
+	public void setVitesse(double vitesse) {
+		this.vitesse = vitesse;
+	}
+
+	//-------------------------------------------------//
+    //----------------toString-------------------------//
+    //-------------------------------------------------//
+	
+	@Override
+	public String toString() {
+		return "Transport [id=" + id + ", nom=" + nom + ", prixAuKm=" + prixAuKm + ", vitesse=" + vitesse + "]";
+	}
+
+    
+    
+    
 }

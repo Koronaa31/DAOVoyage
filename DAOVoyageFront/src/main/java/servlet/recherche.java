@@ -41,7 +41,7 @@ public class recherche extends HttpServlet {
 			
 			if (!transport.equals("N"))
 			{
-				Transport t = Transport.valueOf(transport);
+				Transport t = Site.getInstance().getDaoTransport().selectByNom(transport);
 				Site.getInstance().research(v1,v2,t);
 			}
 			

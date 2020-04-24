@@ -31,6 +31,13 @@ public class Ville {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+    
+    public Ville(String nom, double longitude, double latitude) {
+        this.id = id;
+        this.nom = nom;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 
     public Ville() {
     	
