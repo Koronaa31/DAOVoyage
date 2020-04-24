@@ -5,7 +5,7 @@ public class Voyage {
     private Ville v1,v2;
     private Transport t;
     private double prix;
-    String duree;
+    private String duree;
 
 
     public Voyage(Ville v1, Ville v2, Transport t, double prix, String duree) {
