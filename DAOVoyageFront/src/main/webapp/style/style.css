@@ -113,6 +113,10 @@ main {height:100%;}
 	text-decoration:underline;
 }
 
+.centre .row {
+	padding-left:20px;
+}
+
 .demiePage {
 	padding-left: 30px;
 }
@@ -148,6 +152,14 @@ footer {
 .tableau form{
 	vertical-align:middle;
 	display:table-cell;
+}
+
+.formLong {
+	width:100%;
+}
+
+.colonne3 {
+	width:25%;
 }
 
 @media (max-width:1500px){

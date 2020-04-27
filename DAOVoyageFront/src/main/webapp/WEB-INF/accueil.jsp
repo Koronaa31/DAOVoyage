@@ -86,7 +86,7 @@
 					<div class="col-4">
 						Ville de départ
 						<select required onchange="actVille2()" id="choixVille1" name="v1" class="form-control formWidth">
-							<option selected value="N">Sélectionnez une ville de départ</option>
+							<option disabled selected value="N">Sélectionnez une ville de départ</option>
 							<c:forEach items="${villes1}" var="v">
 								<option value="${v}">${v}</option>
 							</c:forEach>
