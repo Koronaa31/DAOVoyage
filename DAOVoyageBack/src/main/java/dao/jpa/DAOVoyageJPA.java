@@ -3,6 +3,7 @@ package dao.jpa;
 import java.util.List;
 
 import dao.DAOVoyage;
+import model.Client;
 import model.Voyage;
 
 public class DAOVoyageJPA extends DAOJpa implements DAOVoyage {
@@ -49,4 +50,12 @@ public class DAOVoyageJPA extends DAOJpa implements DAOVoyage {
 		}
 		catch (Exception e) {this.em.getTransaction().rollback();System.out.println("delete Voyage pas marcher");}
 	}
+	
+	public List<Voyage> selectByClient(Client client, String Statut) {
+		return this.em.createQuery("select v from Voyage v left join fetch v.client c where c.id=?1 and v.statut=?2", Voyage.class)
+				.setParameter(1, client.getId())
+				.setParameter(2, "Commande")
+				.getResultList();
+	}
+	
 }

@@ -30,12 +30,10 @@
 						<input class="btn btn-info" value="Se connecter" type="submit"/>
 						<input type="hidden" name="action" value="seConnecter"/>
 					</form>
-					<c:if test="${sessionScope.error == 'Y'}">
-						<div id="error">Login/Password incorrects !</div>
-					</c:if>
 				</c:if>
+				<c:if test="${sessionScope.error == 'Y'}">
+					<div id="error">Login/Password incorrects !</div>
 				
-				<c:if test="${sessionScope.isConnect == 'Y'}">
 					<div id="Welcome">Bienvenue ${login}.</div>
 				</c:if>
 				
@@ -44,6 +42,9 @@
 				</div>
 				
 				<c:if test="${sessionScope.isConnect == 'Y'}">
+					<div>
+						<a href="commandes">Voir mes commandes</a><br/>
+					</div>
 					<form method="POST" action="cagnotte">
 	  					<div class="form-row align-items-center">
 							<div class="col-auto my-1">
@@ -60,9 +61,7 @@
 						   	</div>
 						</div>
 					</form>
-				</c:if>
 
-				<c:if test="${sessionScope.isConnect == 'Y'}">
 					<div id="seDeconnecter">
 						<form method="POST" action="accueil">
 							<input type="hidden" name="action" value="seDeconnecter">
@@ -78,7 +77,7 @@
 					<div class="divImage"><img src="img/brigitteBus.png"/></div>
 				</div>
 			</div>
-		
+			
 			<div class="centre col-10">
 				<h1>Bienvenue sur DAO Voyage</h1><br/>
 				<p>"Mais, vous savez, moi je ne crois pas qu'il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd'hui avec vous, je dirais que c'est d'abord des rencontres, des gens qui m'ont tendu la main, peut-être à un moment où je ne pouvais pas, où j'étais seul chez moi. Et c'est assez curieux de se dire que les hasards, les rencontres forgent une destinée... Parce que quand on a le goût de la chose, quand on a le goût de la chose bien faite, le beau geste, parfois on ne trouve pas l'interlocuteur en face, je dirais, le miroir qui vous aide à avancer. Alors ce n'est pas mon cas, comme je le disais là, puisque moi au contraire, j'ai pu ; et je dis merci à la vie, je lui dis merci, je chante la vie, je danse la vie... Je ne suis qu'amour ! Et finalement, quand beaucoup de gens aujourd'hui me disent "Mais comment fais-tu pour avoir cette humanité ?", eh ben je leur réponds très simplement, je leur dis que c'est ce goût de l'amour, ce goût donc qui m'a poussé aujourd'hui à entreprendre une construction mécanique, mais demain, qui sait, peut-être seulement à me mettre au service de la communauté, à faire le don, le don de soi..."</p>
