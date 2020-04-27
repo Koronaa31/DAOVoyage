@@ -109,14 +109,19 @@ public class Client extends Utilisateur {
 		cagnottesDestinataire = Site.getInstance().getDaoCagnotte().selectByDestinataire(this);
 		cagnottesInitiateur = Site.getInstance().getDaoCagnotte().selectByInitiateur(this);
 		cagnottesParticipant = Site.getInstance().getDaoCagnotte().selectByParticipant(this);
-		
+		noDoublon(cagnottesDestinataire);
+		noDoublon(cagnottesInitiateur);
+		noDoublon(cagnottesParticipant);
+	}
+	
+	public void noDoublon(List<Cagnotte> liste) {
 		List<Client> part = new ArrayList<Client>();
-		for(Cagnotte c : cagnottesParticipant) {
+		for(Cagnotte c : liste) {
 			part = c.getParticipants();
 			Set<Client> mySet = new HashSet<Client>(part);
 			List<Client> myList = new ArrayList<Client>(mySet);
 			c.setParticipants(myList);
-		}
+			}
 	}
 	
 	//------------------------------------------------------------//
