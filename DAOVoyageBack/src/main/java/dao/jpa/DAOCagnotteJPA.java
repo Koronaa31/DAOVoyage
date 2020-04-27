@@ -15,7 +15,11 @@ public class DAOCagnotteJPA extends DAOJpa implements DAOCagnotte {
 			this.em.persist(object);
 			this.em.getTransaction().commit();	
 		}
-		catch (Exception e) {this.em.getTransaction().rollback();System.out.println("insert Cagnotte pas marcher");}
+		catch (Exception e) {
+			this.em.getTransaction().rollback();
+			System.out.println("insert Cagnotte pas marcher");
+			e.printStackTrace();
+			}
 	}
 
 	@Override
@@ -54,7 +58,7 @@ public class DAOCagnotteJPA extends DAOJpa implements DAOCagnotte {
 	@Override
 	public List<Cagnotte> selectByDestinataire(Client destinataire) {
 		try {
-			return this.em.createQuery("select c from Cagnotte c where c.destinataire=?1", Cagnotte.class).setParameter(1, destinataire).getResultList();
+			return this.em.createQuery("select c from Cagnotte c where c.destinataire=?1 and c.sommeAPayer = 0", Cagnotte.class).setParameter(1, destinataire).getResultList();
 		} catch (Exception e) {return null;}
 	}
 
@@ -68,7 +72,14 @@ public class DAOCagnotteJPA extends DAOJpa implements DAOCagnotte {
 	@Override
 	public List<Cagnotte> selectByParticipant(Client participant) {
 		try {
-			return this.em.createQuery("select c from Cagnotte c where c.participants=?1", Cagnotte.class).setParameter(1, participant).getResultList();
+			return this.em.createQuery("select c from Cagnotte c left join c.participants p where p=?1", Cagnotte.class).setParameter(1, participant).getResultList();
+		} catch (Exception e) {return null;}
+	}
+
+	@Override
+	public List<Cagnotte> selectByDestinataireLogin(String login) {
+		try {
+			return this.em.createQuery("select c from Cagnotte c left join c.destinataire d where d.login=?1 and c.sommeAPayer <> 0", Cagnotte.class).setParameter(1, login).getResultList();
 		} catch (Exception e) {return null;}
 	}
 

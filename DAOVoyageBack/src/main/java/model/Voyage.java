@@ -1,5 +1,8 @@
 package model;
 
+import java.nio.MappedByteBuffer;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -42,9 +46,15 @@ public class Voyage {
     @ManyToOne
     @JoinColumn(name = "id_client")
     private Client client;
-
-    	
     
+    @OneToOne(mappedBy = "voyage")
+    private Cagnotte cagnotte;
+
+    //---------------------------------------------------//
+    //---------------------------------------------------//
+    //---------------------------------------------------//
+    //---------------------------------------------------//
+  
     public Voyage(Ville v1, Ville v2, Transport t, Client client) {
 		this.v1 = v1;
 		this.v2 = v2;

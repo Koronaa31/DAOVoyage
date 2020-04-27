@@ -42,6 +42,25 @@
 				<div id="panier">
 					<a href="panier">Voir mon panier.</a><br/>
 				</div>
+				
+				<c:if test="${sessionScope.isConnect == 'Y'}">
+					<form method="POST" action="cagnotte">
+	  					<div class="form-row align-items-center">
+							<div class="col-auto my-1">
+						    	<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+						     	<select class="custom-select mr-sm-2" id="inlineFormCustomSelect" name="action">
+						       		<option selected >Cagnotte</option>
+						       		<option value="accueilCreation">Création</option>
+						       		<option value="accueilParticipation">Participation</option>
+						       		<option value="archives">Archives</option>
+						     	</select>
+						  	</div>
+						  	<div class="col-auto my-1">
+						     	<button type="submit" class="btn btn-success">Soumettre</button>
+						   	</div>
+						</div>
+					</form>
+				</c:if>
 
 				<c:if test="${sessionScope.isConnect == 'Y'}">
 					<div id="seDeconnecter">
@@ -77,7 +96,11 @@
 										<label>Client Destinataire</label>
 										<input name="loginDestinataire" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 										<input type="hidden" name="action" value="checkLogin"/>
+										<c:if test="${sessionScope.errorDes == 'Y'}">
+											<div><font color="red">Ce client n'existe pas !</font></div>
+										</c:if>
 									</div>
+									
 									<button type="submit" class="btn btn-info">Submit</button>
 								</form>
 							</c:if>
@@ -87,6 +110,7 @@
 									<input class="form-control" type="text" placeholder=${destinataire.login} readonly></br>
 									<label><u>Choisir le voyage à offrir</u></label>
 									<form class="form-group" method="POST" action="cagnotte">
+										<input type="hidden" name="action" value="creationCagnotte"/>
 										Ville de départ
 										<select required name="v1" class="form-control formWidth">
 											<option selected value="N">Sélectionnez une ville de départ</option>
@@ -95,34 +119,176 @@
 										    </c:forEach>
 										</select>
 										Ville d'arrivée
-										<select required name="v1" class="form-control formWidth">
+										<select required name="v2" class="form-control formWidth">
 											<option selected value="N">Sélectionnez une ville d'arrivée</option>
 										    <c:forEach items="${villes2}" var="v">
 										        <option value="${v.nom}">${v.nom}</option>
 										    </c:forEach>
 										</select>
 										Moyen de transport
-										<select required name="v1" class="form-control formWidth">
+										<select required name="t" class="form-control formWidth">
 											<option selected value="N">Sélectionnez un transport</option>
 										    <c:forEach items="${transports}" var="t">
 										        <option value="${t.nom}">${t.nom}</option>
 										    </c:forEach>
 										</select>
 										<div id="rechercheButton" class="col-12">
-											<input class="btn btn-info" type="submit" value="Créer une cagnotte">
+											<input class="btn btn-info creer" type="submit" value="Créer une cagnotte">
 										</div>
 									</form>
 								</div>
-								
 							</c:if>
 						</div>
 					</div>
 				</c:if>
+				
 				<c:if test="${sessionScope.aAfficher == 'participation'}">
 					<h1>Participation à une cagnotte</h1><br/>
+					<div class="row">
+						<div class="col-6">
+							<c:if test="${sessionScope.checkIdDestinataire == 'wrong'}">
+								<form method="POST" action="cagnotte">
+									<div class="form-group">
+										<label>Login du destinataire de la cagnotte</label>
+										<input name="loginDestinataire" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+										<input type="hidden" name="action" value="checkIdDestinataire"/>
+										<c:if test="${sessionScope.errorDes == 'Y'}">
+											<div><font color="red">Pas de cagnotte en cours pour ce client !</font></div>
+										</c:if>
+									</div>
+									<button type="submit" class="btn btn-info">Submit</button>
+								</form>
+							</c:if>
+						</div>	
+							
+						<div class="col-12">	
+							<c:if test="${sessionScope.checkIdDestinataire == 'right'}">
+								<table class="table tableau">
+									<thead class="thead-dark">
+										<tr>
+											<td><strong>Participer</strong></td>
+											<td><strong>Initiateur</strong></td>
+											<td><strong>Ville de départ</strong></td>
+											<td><strong>Ville d'arrivée</strong></td>
+											<td><strong>Moyen de transport</strong></td>
+											<td><strong>Durée</strong></td>
+											<td><strong>Somme restante</strong></td>
+										</tr>
+									</thead>
+				
+									<c:forEach items="${ listeCagnotteDestinataire }" var="c">
+										<tr>
+											<td> 
+												<form method="POST" action="cagnotte">
+													<input type="number" step="0.01" max=${ c.sommeAPayer } required placeholder="somme" name="sommePayee" /> 
+													<input type="hidden" name="action" value="sommePayee">
+													<input type="hidden" name="cagnotteChoisie" value=${c.id }>
+													<input type="submit" class="btn btn-outline-info" value="Crediter" />
+												</form>
+											</td>
+											<td>${ c.initiateur.login }</td>
+											<td>${ c.voyage.v1.nom }</td>
+											<td>${ c.voyage.v2.nom }</td>
+											<td>${ c.voyage.t.nom }</td>
+											<td>${ c.voyage.duree }</td>
+											<td>${ c.sommeAPayer } €</td>
+										</tr>
+									</c:forEach>
+								</table> <br/>
+							</c:if>
+						</div>
+					</div>	
 				</c:if>
 				<c:if test="${sessionScope.aAfficher == 'archives'}">
 					<h1>Voici vos différentes cagnotes</h1><br/>
+					<label>Cagnottes dont vous avez été le destinataire</label>
+					<table class="table tableau">
+						<thead class="thead-dark">
+							<tr>
+								<td><strong>Initiateur</strong></td>
+								<td><strong>Ville de départ</strong></td>
+								<td><strong>Ville d'arrivée</strong></td>
+								<td><strong>Moyen de transport</strong></td>
+								<td><strong>Durée</strong></td>
+								<td><strong>Participants</strong></td>
+							</tr>
+						</thead>
+	
+						<c:forEach items="${ cagnottesDestinataire }" var="c">
+							<tr>
+								<td>${ c.initiateur.login }</td>
+								<td>${ c.voyage.v1.nom }</td>
+								<td>${ c.voyage.v2.nom }</td>
+								<td>${ c.voyage.t.nom }</td>
+								<td>${ c.voyage.duree }</td>
+								<td>
+									<c:forEach items="${ c.participants }" var="p">
+										${ p.login }<br/>
+									</c:forEach>
+								</td>
+							</tr>
+						</c:forEach>
+					</table> <br/>
+					
+					<label>Cagnottes dont vous êtes l'initiateur</label>
+					<table class="table tableau">
+						<thead class="thead-dark">
+							<tr>
+								<td><strong>Destinataire</strong></td>
+								<td><strong>Ville de départ</strong></td>
+								<td><strong>Ville d'arrivée</strong></td>
+								<td><strong>Moyen de transport</strong></td>
+								<td><strong>Durée</strong></td>
+								<td><strong>Participants</strong></td>
+							</tr>
+						</thead>
+	
+						<c:forEach items="${ cagnottesInitiateur }" var="c">
+							<tr>
+								<td>${ c.destinataire.login }</td>
+								<td>${ c.voyage.v1.nom }</td>
+								<td>${ c.voyage.v2.nom }</td>
+								<td>${ c.voyage.t.nom }</td>
+								<td>${ c.voyage.duree }</td>
+								<td>
+									<c:forEach items="${ c.participants }" var="p">
+										${ p.login }<br/>
+									</c:forEach>
+								</td>
+							</tr>
+						</c:forEach>
+					</table> <br/>
+					
+					<label>Cagnottes dont vous avez été paticipants</label>
+					<table class="table tableau">
+						<thead class="thead-dark">
+							<tr>
+								<td><strong>Destinataire</strong></td>
+								<td><strong>Initiateur</strong></td>
+								<td><strong>Ville de départ</strong></td>
+								<td><strong>Ville d'arrivée</strong></td>
+								<td><strong>Moyen de transport</strong></td>
+								<td><strong>Durée</strong></td>
+								<td><strong>Participants</strong></td>
+							</tr>
+						</thead>
+	
+						<c:forEach items="${ cagnottesParticipant }" var="c">
+							<tr>
+								<td>${ c.destinataire.login }</td>
+								<td>${ c.initiateur.login }</td>
+								<td>${ c.voyage.v1.nom }</td>
+								<td>${ c.voyage.v2.nom }</td>
+								<td>${ c.voyage.t.nom }</td>
+								<td>${ c.voyage.duree }</td>
+								<td>
+									<c:forEach items="${ c.participants }" var="p">
+										${ p.login }<br/>
+									</c:forEach>
+								</td>
+							</tr>
+						</c:forEach>
+					</table> <br/>
 				</c:if>
 			</div>
 		</main>
@@ -134,3 +300,11 @@
 		</footer>
 	</body>
 </html>
+
+<script>
+
+	$(".creer").click(function(){
+		alert("Cagnotte créée. Merci !")
+	});
+
+</script>

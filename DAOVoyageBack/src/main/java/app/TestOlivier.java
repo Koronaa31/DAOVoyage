@@ -15,18 +15,20 @@ public class TestOlivier {
 		
 
 		Client init = (Client) Site.getInstance().getDaoUtilisateur().selectById(3);
-		Client dest = (Client) Site.getInstance().getDaoUtilisateur().selectById(4);
-		Client part = (Client) Site.getInstance().getDaoUtilisateur().selectById(7);
-		
-		Ville vill = Site.getInstance().getDaoVille().selectByNom("Toulouse");
-		System.out.println(vill);
-		List<Ville> villes = Site.getInstance().getDaoVille().selectAll();
-		
-		System.out.println(villes.size());
-		for(Ville v : villes) {
-			System.out.println(v);
+//		Client dest = (Client) Site.getInstance().getDaoUtilisateur().selectById(4);
+//		
+//		Ville v1 = Site.getInstance().getDaoVille().selectById(1);
+//		Ville v2 = Site.getInstance().getDaoVille().selectById(2);
+//		Transport t = Site.getInstance().getDaoTransport().selectById(2);
+//		Voyage v = new Voyage(v1, v2, t, dest);
+//		System.out.println(v);
+//		v.setStatut("");
+//		
+//		init.creationCagnotte(v);
+//
+		List<Cagnotte> liste = Site.getInstance().getDaoCagnotte().selectByParticipant(init);
+		for(Cagnotte c : liste) {
+			System.out.println(c);
 		}
-
-		
 	}
 }

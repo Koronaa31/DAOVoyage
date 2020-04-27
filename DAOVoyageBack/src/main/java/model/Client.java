@@ -85,20 +85,22 @@ public class Client extends Utilisateur {
 	public void setCagnottesParticipant(List<Cagnotte> cagnottesParticipant) {
 		this.cagnottesParticipant = cagnottesParticipant;
 	}
+	
+	//------------------------------------------------------------//
+	//------------------------------------------------------------//
+	//------------------------------------------------------------//
+	//------------------------------------------------------------//
 
-	public void creationCagnotte(Client destinataire, Voyage v) {
-		Cagnotte c = new Cagnotte(v.getPrix(), destinataire, this, v);
-		Site.getInstance().getDaoVoyage().insert(v);
+	public void creationCagnotte(Voyage v) {
+		Cagnotte c = new Cagnotte(v.getPrix(), v.getClient(), this, v);
 		Site.getInstance().getDaoCagnotte().insert(c);
 	}
 	
 	public void participer(double somme, Cagnotte c) {
 		double n = c.getSommeAPayer()-somme;
-		if(n >= 0) {
-			c.setSommeAPayer(n);
-			c.addParticipant(this);
-			Site.getInstance().getDaoCagnotte().update(c);
-		} 
+		c.setSommeAPayer(n);
+		c.addParticipant(this);
+		Site.getInstance().getDaoCagnotte().update(c);
 	}
 	
 	public void archives() {
