@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -107,6 +109,14 @@ public class Client extends Utilisateur {
 		cagnottesDestinataire = Site.getInstance().getDaoCagnotte().selectByDestinataire(this);
 		cagnottesInitiateur = Site.getInstance().getDaoCagnotte().selectByInitiateur(this);
 		cagnottesParticipant = Site.getInstance().getDaoCagnotte().selectByParticipant(this);
+		
+		List<Client> part = new ArrayList<Client>();
+		for(Cagnotte c : cagnottesParticipant) {
+			part = c.getParticipants();
+			Set<Client> mySet = new HashSet<Client>(part);
+			List<Client> myList = new ArrayList<Client>(mySet);
+			c.setParticipants(myList);
+		}
 	}
 	
 	//------------------------------------------------------------//

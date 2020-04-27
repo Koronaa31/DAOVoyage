@@ -63,9 +63,7 @@ public class cagnotte extends HttpServlet {
 		} else if(action.equals("archives")) {
 			request.getSession().setAttribute("aAfficher", "archives");
 			Client client = (Client) request.getSession().getAttribute("client");
-			client.setCagnottesDestinataire(Site.getInstance().getDaoCagnotte().selectByDestinataire(client));
-			client.setCagnottesInitiateur(Site.getInstance().getDaoCagnotte().selectByInitiateur(client));
-			client.setCagnottesParticipant(Site.getInstance().getDaoCagnotte().selectByParticipant(client));
+			client.archives();
 			request.getSession().setAttribute("cagnottesDestinataire", client.getCagnottesDestinataire());
 			request.getSession().setAttribute("cagnottesInitiateur", client.getCagnottesInitiateur());
 			request.getSession().setAttribute("cagnottesParticipant", client.getCagnottesParticipant());

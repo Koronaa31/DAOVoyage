@@ -72,7 +72,7 @@ public class DAOCagnotteJPA extends DAOJpa implements DAOCagnotte {
 	@Override
 	public List<Cagnotte> selectByParticipant(Client participant) {
 		try {
-			return this.em.createQuery("select c from Cagnotte c left join c.participants p where p=?1", Cagnotte.class).setParameter(1, participant).getResultList();
+			return this.em.createQuery("select distinct c from Cagnotte c left join c.participants p where p=?1", Cagnotte.class).setParameter(1, participant).getResultList();
 		} catch (Exception e) {return null;}
 	}
 

@@ -26,9 +26,9 @@ public class TestOlivier {
 //		
 //		init.creationCagnotte(v);
 //
-		List<Cagnotte> liste = Site.getInstance().getDaoCagnotte().selectByParticipant(init);
-		for(Cagnotte c : liste) {
-			System.out.println(c);
+		init.archives();
+		for(Cagnotte c : init.getCagnottesParticipant()) {
+			System.out.println(c.getParticipants());
 		}
 	}
 }
