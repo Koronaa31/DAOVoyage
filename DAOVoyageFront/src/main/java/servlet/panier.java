@@ -5,16 +5,17 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.DAOVille;
-import dao.jdbc.DAOVilleJDBC;
-import fr.formation.model.*;
+import fr.formation.model.Client;
+import fr.formation.model.Site;
+import fr.formation.model.Transport;
+import fr.formation.model.Ville;
+import fr.formation.model.Voyage;
 
 @WebServlet("/panier")
-public class panier extends HttpServlet {
+public class panier extends SpringServlet {
 	       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -45,9 +46,9 @@ public class panier extends HttpServlet {
 			String villeDep = request.getParameter("v1");
 			String villeArr = request.getParameter("v2");
 			String transport = request.getParameter("t");	
-			Ville v1 = Site.getInstance().getDaoVille().findByNom(villeDep);
-			Ville v2 = Site.getInstance().getDaoVille().findByNom(villeArr);
-			Transport t = Site.getInstance().getDaoTransport().findByNom(transport);
+			Ville v1 = daoVille.findByNom(villeDep);
+			Ville v2 = daoVille.findByNom(villeArr);
+			Transport t = daoTransport.findByNom(transport);
 			
 			Voyage voy = new Voyage(v1,v2,t);
 			
@@ -73,7 +74,7 @@ public class panier extends HttpServlet {
 	        System.out.println(client);
 			System.out.println("Voyage 2 : \n"+voyage);
 	        
-			Site.getInstance().getDaoVoyage().save(voyage);
+			daoVoyage.save(voyage);
 			}
 			
 			Site.getInstance().getPanier().clear();

@@ -18,7 +18,7 @@ import fr.formation.model.Voyage;
 
 
 @WebServlet("/cagnotte")
-public class cagnotte extends HttpServlet {
+public class cagnotte extends SpringServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/cagnotte.jsp").forward(request, response);
@@ -33,13 +33,13 @@ public class cagnotte extends HttpServlet {
 			request.getSession().setAttribute("checkLogin", "wrong");
 		} else if(action.equals("checkLogin")) {
 			String login = request.getParameter("loginDestinataire");
-			Client c = (Client) Site.getInstance().getDaoUtilisateur().findByLogin(login);
+			Client c = (Client) daoUtilisateur.findByLogin(login);
 			if (c != null){
 				request.getSession().setAttribute("errorDes", "N");
 				request.getSession().setAttribute("destinataire", c);
 				request.getSession().setAttribute("checkLogin", "right");
-				List<Ville> villes = Site.getInstance().getDaoVille().findAll();
-				List<Transport> transports = Site.getInstance().getDaoTransport().findAll();
+				List<Ville> villes = daoVille.findAll();
+				List<Transport> transports = daoTransport.findAll();
 				request.getSession().setAttribute("villes1", villes);
 				request.getSession().setAttribute("villes2", villes);
 				request.getSession().setAttribute("transports", transports);
@@ -52,18 +52,18 @@ public class cagnotte extends HttpServlet {
 			String transport = request.getParameter("t");
 			Client initiateur = (Client) request.getSession().getAttribute("client");
 			Client destinataire = (Client) request.getSession().getAttribute("destinataire");
-			Ville v1 = Site.getInstance().getDaoVille().findByNom(villeDep);
-			Ville v2 = Site.getInstance().getDaoVille().findByNom(villeArr);
-			Transport t = Site.getInstance().getDaoTransport().findByNom(transport);
+			Ville v1 = daoVille.findByNom(villeDep);
+			Ville v2 = daoVille.findByNom(villeArr);
+			Transport t = daoTransport.findByNom(transport);
 			Voyage v = new Voyage(v1, v2, t, destinataire);
 			v.setStatut("Cagnotte");
-			initiateur.creationCagnotte(v);
+			Site.getInstance().creationCagnotte(v,initiateur);
 			
 			
 		} else if(action.equals("archives")) {
 			request.getSession().setAttribute("aAfficher", "archives");
 			Client client = (Client) request.getSession().getAttribute("client");
-			client.archives();
+			Site.getInstance().archives(client);
 			request.getSession().setAttribute("cagnottesDestinataire", client.getCagnottesDestinataire());
 			request.getSession().setAttribute("cagnottesInitiateur", client.getCagnottesInitiateur());
 			request.getSession().setAttribute("cagnottesParticipant", client.getCagnottesParticipant());
@@ -74,21 +74,22 @@ public class cagnotte extends HttpServlet {
 			request.getSession().setAttribute("checkIdDestinataire", "wrong");
 		} else if(action.equals("checkIdDestinataire")) {
 			String login = request.getParameter("loginDestinataire");
-			List<Cagnotte> listeCagnotteDestinataire = Site.getInstance().getDaoCagnotte().findByDestinataireLogin(login);
-			if(!listeCagnotteDestinataire.isEmpty()) {
+			Client dest = (Client) daoUtilisateur.findByLogin(login);
+			dest.setCagnottesDestinataire(daoCagnotte.findByDestinataireAPayer(dest));
+			if(!dest.getCagnottesDestinataire().isEmpty()) {
 				request.getSession().setAttribute("errorDes", "N");
 				request.getSession().setAttribute("checkIdDestinataire", "right");
-				request.getSession().setAttribute("listeCagnotteDestinataire", listeCagnotteDestinataire);
+				request.getSession().setAttribute("listeCagnotteDestinataire", dest.getCagnottesDestinataire());
 			} else {request.getSession().setAttribute("errorDes", "Y");}
 		} else if(action.equals("sommePayee")) {
 			double sommePayee = Double.parseDouble(request.getParameter("sommePayee"));
 			Client participant = (Client) request.getSession().getAttribute("client");
 			int id = Integer.parseInt(request.getParameter("cagnotteChoisie"));
-			Cagnotte c = Site.getInstance().getDaoCagnotte().findById(id);
-			participant.participer(sommePayee, c);
+			Cagnotte c = daoCagnotte.findById(id).orElse(null);
+			Site.getInstance().participer(sommePayee, c, participant);
 			List<Cagnotte> listeCagnotteDestinataire = (List<Cagnotte>) request.getSession().getAttribute("listeCagnotteDestinataire");
 			Client destinataire = listeCagnotteDestinataire.get(0).getDestinataire();
-			listeCagnotteDestinataire = Site.getInstance().getDaoCagnotte().findByDestinataireLogin(destinataire.getLogin());
+			listeCagnotteDestinataire = daoCagnotte.findByDestinataireAPayer(destinataire);
 			if(!listeCagnotteDestinataire.isEmpty()) {
 				request.getSession().setAttribute("listeCagnotteDestinataire", listeCagnotteDestinataire);
 			} else {request.getSession().setAttribute("cagnotteIsEmpty", "Y");}

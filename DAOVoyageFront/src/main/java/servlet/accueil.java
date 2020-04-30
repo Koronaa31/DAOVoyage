@@ -17,10 +17,10 @@ import fr.formation.model.Ville;
 
 
 @WebServlet("/accueil")
-public class accueil extends HttpServlet {
+public class accueil extends SpringServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Ville> villes = Site.getInstance().getDaoVille().findAll();
+		List<Ville> villes = daoVille.findAll();
 		ArrayList nomsVilles = new ArrayList();
 		for(Ville v : villes) {
 			nomsVilles.add(v.getNom());

@@ -12,6 +12,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.formation.dao.IDAOCagnotte;
 
@@ -38,6 +41,8 @@ public abstract class Utilisateur {
 	@Column(name = "type_compte", insertable = false, updatable = false)
 	protected String typeCompte;
 	
+	@Transient
+	@Autowired
 	protected IDAOCagnotte daoCagnotte;
 	
 	public int getId() {

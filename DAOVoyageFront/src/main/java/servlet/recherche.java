@@ -4,15 +4,15 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.*;
-import fr.formation.model.*;
+import fr.formation.model.Site;
+import fr.formation.model.Transport;
+import fr.formation.model.Ville;
 
 @WebServlet("/recherche")
-public class recherche extends HttpServlet {
+public class recherche extends SpringServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -33,15 +33,15 @@ public class recherche extends HttpServlet {
 		String villeDep = request.getParameter("v1");
 		String villeArr = request.getParameter("v2");
 		String transport = request.getParameter("t");
-		Ville v1 = Site.getInstance().getDaoVille().findByNom(villeDep);
+		Ville v1 = daoVille.findByNom(villeDep);
 		
 		if (!villeArr.equals("N"))
 		{
-			Ville v2 = Site.getInstance().getDaoVille().findByNom(villeArr);
+			Ville v2 = daoVille.findByNom(villeArr);
 			
 			if (!transport.equals("N"))
 			{
-				Transport t = Site.getInstance().getDaoTransport().findByNom(transport);
+				Transport t = daoTransport.findByNom(transport);
 				Site.getInstance().research(v1,v2,t);
 			}
 			

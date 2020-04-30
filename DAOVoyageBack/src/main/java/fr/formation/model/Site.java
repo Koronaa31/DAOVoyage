@@ -3,12 +3,20 @@ package fr.formation.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import fr.formation.config.AppConfig;
+import fr.formation.dao.IDAOCagnotte;
 import fr.formation.dao.IDAOTransport;
 import fr.formation.dao.IDAOUtilisateur;
 import fr.formation.dao.IDAOVille;
+import fr.formation.dao.IDAOVoyage;
 
 public class Site {
 
@@ -17,9 +25,11 @@ public class Site {
 	private Connection connection = null;
 	private static Site _instance = null;
 
-	private static IDAOUtilisateur daoUtilisateur;
-	private static IDAOVille daoVille;
-	private static IDAOTransport daoTransport;
+	private IDAOUtilisateur daoUtilisateur;
+	private IDAOVille daoVille;
+	private IDAOTransport daoTransport;
+	private IDAOCagnotte daoCagnotte;
+	private IDAOVoyage daoVoyage;
 
 	//-----------------------------------------------------//
 	//-----------------------------------------------------//
@@ -55,9 +65,57 @@ public class Site {
 	//-----------------------------------------------------//
 	//-----------------------------------------------------//
 
+	public IDAOUtilisateur getDaoUtilisateur() {
+		return daoUtilisateur;
+	}
+
+	public void setDaoUtilisateur(IDAOUtilisateur daoUtilisateur) {
+		this.daoUtilisateur = daoUtilisateur;
+	}
+
+	public IDAOVille getDaoVille() {
+		return daoVille;
+	}
+
+	public void setDaoVille(IDAOVille daoVille) {
+		this.daoVille = daoVille;
+	}
+
+	public IDAOTransport getDaoTransport() {
+		return daoTransport;
+	}
+
+	public void setDaoTransport(IDAOTransport daoTransport) {
+		this.daoTransport = daoTransport;
+	}
+
+	public IDAOCagnotte getDaoCagnotte() {
+		return daoCagnotte;
+	}
+
+	public void setDaoCagnotte(IDAOCagnotte daoCagnotte) {
+		this.daoCagnotte = daoCagnotte;
+	}
+
+	public IDAOVoyage getDaoVoyage() {
+		return daoVoyage;
+	}
+
+	public void setDaoVoyage(IDAOVoyage daoVoyage) {
+		this.daoVoyage = daoVoyage;
+	}
+
 	public static Site getInstance() {
 		if(_instance==null) {
+			AnnotationConfigApplicationContext myContext = 
+					new AnnotationConfigApplicationContext(AppConfig.class);
+			
 			_instance = new Site();
+			_instance.daoTransport = myContext.getBean(IDAOTransport.class);
+			_instance.daoVoyage = myContext.getBean(IDAOVoyage.class);
+			_instance.daoCagnotte = myContext.getBean(IDAOCagnotte.class);
+			_instance.daoVille = myContext.getBean(IDAOVille.class);
+			_instance.daoUtilisateur = myContext.getBean(IDAOUtilisateur.class);
 		}
 		return _instance;
 	}
@@ -141,6 +199,39 @@ public class Site {
 			System.out.println(i+"- "+t.getNom());
 		}
 	}
+	
+	public void creationCagnotte(Voyage v, Client init) {
+		Cagnotte c = new Cagnotte(v.getPrix(), v.getClient(), init, v);
+		this.daoCagnotte.save(c);
+	}
+	
+	public void participer(double somme, Cagnotte c, Client p) {
+		double n = c.getSommeAPayer()-somme;
+		c.setSommeAPayer(n);
+		c.addParticipant(p);
+		this.daoCagnotte.save(c);
+	}
+	
+	public void archives(Client c) {
+		c.setCagnottesDestinataire(daoCagnotte.findByDestinataire(c));
+		c.setCagnottesInitiateur(daoCagnotte.findByInitiateur(c));
+		c.setCagnottesParticipant(daoCagnotte.findByParticipant(c));
+		noDoublon(c.getCagnottesDestinataire());
+		noDoublon(c.getCagnottesInitiateur());
+		noDoublon(c.getCagnottesParticipant());
+	}
+	
+	public void noDoublon(List<Cagnotte> liste) {
+		List<Client> part = new ArrayList<Client>();
+		for(Cagnotte c : liste) {
+			part = c.getParticipants();
+			Set<Client> mySet = new HashSet<Client>(part);
+			List<Client> myList = new ArrayList<Client>(mySet);
+			c.setParticipants(myList);
+			}
+	}
+	
+
 
 
 	public Connection getConnection() throws ClassNotFoundException, SQLException {

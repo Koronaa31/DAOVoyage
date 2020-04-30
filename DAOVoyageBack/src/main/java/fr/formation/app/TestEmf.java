@@ -9,7 +9,7 @@ public class TestEmf {
 	public static void main(String[] args) throws ClassNotFoundException {
 		
 
-		System.out.println(Site.getInstance().getDaoTransport().findByNom("Avion"));
+		//System.out.println(Site.getInstance().getDaoTransport().findByNom("Avion"));
 		
 		
 //		Medecin medecin = (Medecin) daoCompte.selectById(2);

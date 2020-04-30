@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -15,13 +16,13 @@ import javax.persistence.OneToMany;
 public class Client extends Utilisateur {
 	
 	@OneToMany(mappedBy = "destinataire")
-	List<Cagnotte> cagnottesDestinataire = new ArrayList<>();
+	private List<Cagnotte> cagnottesDestinataire = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "initiateur")
-	List<Cagnotte> cagnottesInitiateur = new ArrayList<>();
+	private List<Cagnotte> cagnottesInitiateur = new ArrayList<>();
 	
-	@ManyToMany(mappedBy = "participants")
-	List<Cagnotte> cagnottesParticipant = new ArrayList<>();
+	@ManyToMany(mappedBy = "participants", fetch = FetchType.EAGER)
+	private List<Cagnotte> cagnottesParticipant = new ArrayList<>();
 	
 
 	@OneToMany(mappedBy = "client")
@@ -86,42 +87,6 @@ public class Client extends Utilisateur {
 
 	public void setCagnottesParticipant(List<Cagnotte> cagnottesParticipant) {
 		this.cagnottesParticipant = cagnottesParticipant;
-	}
-	
-	//------------------------------------------------------------//
-	//------------------------------------------------------------//
-	//------------------------------------------------------------//
-	//------------------------------------------------------------//
-
-	public void creationCagnotte(Voyage v) {
-		Cagnotte c = new Cagnotte(v.getPrix(), v.getClient(), this, v);
-		this.daoCagnotte.save(c);
-	}
-	
-	public void participer(double somme, Cagnotte c) {
-		double n = c.getSommeAPayer()-somme;
-		c.setSommeAPayer(n);
-		c.addParticipant(this);
-		this.daoCagnotte.save(c);
-	}
-	
-	public void archives() {
-		cagnottesDestinataire = this.daoCagnotte.findByDestinataire(this);
-		cagnottesInitiateur = this.daoCagnotte.findByInitiateur(this);
-		cagnottesParticipant = this.daoCagnotte.findByParticipant(this);
-		noDoublon(cagnottesDestinataire);
-		noDoublon(cagnottesInitiateur);
-		noDoublon(cagnottesParticipant);
-	}
-	
-	public void noDoublon(List<Cagnotte> liste) {
-		List<Client> part = new ArrayList<Client>();
-		for(Cagnotte c : liste) {
-			part = c.getParticipants();
-			Set<Client> mySet = new HashSet<Client>(part);
-			List<Client> myList = new ArrayList<Client>(mySet);
-			c.setParticipants(myList);
-			}
 	}
 	
 	//------------------------------------------------------------//

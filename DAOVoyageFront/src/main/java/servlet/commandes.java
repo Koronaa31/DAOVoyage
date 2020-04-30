@@ -14,13 +14,13 @@ import fr.formation.model.Site;
 import fr.formation.model.Voyage;
 
 @WebServlet("/commandes")
-public class commandes extends HttpServlet {
+public class commandes extends SpringServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Ajouter la liste de voyages du client (statut = commande) à la liste panier // Voyages.selectAllByClient
 		String statut = "Commande";
 		Client client = (Client) request.getSession().getAttribute("client");
-		List<Voyage> loadPanier = Site.getInstance().getDaoVoyage().findByClientAndStatut(client, statut);
+		List<Voyage> loadPanier = daoVoyage.findByClientAndStatut(client, statut);
 		System.out.println(loadPanier);
 		request.getSession().setAttribute("commandes", loadPanier);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/commandes.jsp").forward(request, response);
