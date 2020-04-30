@@ -6,27 +6,30 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.formation.model.Client;
 import fr.formation.model.Site;
+import fr.formation.model.Transport;
 import fr.formation.model.Utilisateur;
 import fr.formation.model.Ville;
-
 
 @WebServlet("/accueil")
 public class accueil extends SpringServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Ville> villes = daoVille.findAll();
-		ArrayList nomsVilles = new ArrayList();
-		for(Ville v : villes) {
-			nomsVilles.add(v.getNom());
-			}
-		request.getSession().setAttribute("villes1", nomsVilles);
-		request.getSession().setAttribute("villes2", nomsVilles);
+		List<Ville> Villes = daoVille.findAll();
+		List<String> villes = new ArrayList<>();
+		for (Ville v : Villes) {
+			villes.add(v.getNom());}
+		request.setAttribute("villes", villes);
+		
+		List<Transport> Transports = daoTransport.findAll();
+		List<String> transports = new ArrayList<>();
+		for (Transport t : Transports) {
+			transports.add(t.getNom());}
+		request.setAttribute("transports", transports);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 	}
 
@@ -51,14 +54,12 @@ public class accueil extends SpringServlet {
 				doGet(request, response);
 			}
 			} else {request.getSession().setAttribute("error", "Y"); doGet(request, response);}
-						
-		} else if (action.equals("seDeconnecter")) {
+		}
+		else if (action.equals("seDeconnecter")) {
 			Site.getInstance().getPanier().clear();
 			request.getSession().invalidate();
 			
 			doGet(request, response);
 		}
-		
 	}
-
 }

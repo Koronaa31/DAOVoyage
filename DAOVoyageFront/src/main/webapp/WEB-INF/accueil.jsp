@@ -85,31 +85,26 @@
 				<form class="form-group row" method="POST" action="recherche">
 					<div class="col-4">
 						Ville de départ
-						<select required onchange="actVille2()" id="choixVille1" name="v1" class="form-control formWidth">
+						<select required onchange="actVille2(this.form)" id="v1" name="v1" class="form-control formWidth">
 							<option disabled selected value="N">Sélectionnez une ville de départ</option>
-							<c:forEach items="${villes1}" var="v">
-								<option value="${v}">${v}</option>
+							<c:forEach items="${villes}" var="v">
+								<option v1="${v}" value="${v}">${v}</option>
 							</c:forEach>
 						</select>
 					</div>
 					<div class="col-4">
 						Ville d'arrivée
-						<select id="v2" name="v2" class="form-control formWidth">
+						<select onchange="actTransport(this.form)" id="v2" name="v2" class="form-control formWidth">
 							<option selected value="N">Toutes</option>
-							<c:forEach items="${villes2}" var="v">
-								<option value="${v}">${v}</option>
-							</c:forEach>
 						</select>
 					</div>
 					<div class="col-4">
 						Moyen de transport
 						<select name="t" class="form-control formWidth">
-							<option selected value="N">Tous</option>
-							<option value="Avion">Avion</option>
-							<option value="Train">Train</option>
-							<option value="Bus">Bus</option>
-							<option value="Cheval">Cheval</option>
-							<option value="PoussePousse">PoussePousse</option>
+							<option selected value="N">Toutes</option>
+							<c:forEach items="${transports}" var="t">
+								<option value="${t}">${t}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div id="rechercheButton" class="col-12">
@@ -125,4 +120,63 @@
 			<div class="col-4"><a href="inscription">Conditions de vente</a></div>
 		</footer>
 	</body>
+	
+<script>
+
+var villes2 = null;
+villes2 = new Array();
+
+var v2 = document.getElementById("v2");
+var t = document.getElementById("t");
+
+function actVille2(form) {
+
+	var l = v2.options.length;
+	for(j=0;j<l;j++) {
+	v2.remove(1);}
+	
+	var ville1 = document.getElementById("v1").value;
+	
+	villes2 = [];
+	
+	<c:forEach items="${villes}" var="v">
+		villes2.push('${ v }');
+	</c:forEach>
+
+	console.log(villes2);
+	
+	for(i=0;i<villes2.length;i++) {
+		if (villes2[i] == ville1) {villes2.splice(i,1);}
+		console.log(villes2[i]);
+	}
+	
+	console.log(villes2);
+	
+	for(
+		//c element of villes2
+		j=0;j<villes2.length;j++
+		) {
+		var c = document.createElement("option");
+		c.text = villes2[j];
+		console.log(villes2[j]);
+		  v2.options.add(c, j+1);
+		  }
+	
+};
+
+function actTransport(form) {
+	
+	var lt = t.options.length;
+	for(j=0;j<lt;j++) {
+	t.remove(1);}
+	
+	var ville1 = document.getElementById("v1").value;
+	
+	villes2 = [];
+	
+	
+};
+
+</script>
+	
 </html>
