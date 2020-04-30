@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Site;
-import model.Transport;
-import model.Ville;
+import fr.formation.model.Site;
+import fr.formation.model.Transport;
+import fr.formation.model.Ville;
 
 
 @WebServlet("/admin")
 public class admin extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("villes", Site.getInstance().getDaoVille().selectAll());
-		request.setAttribute("transports", Site.getInstance().getDaoTransport().selectAll());
+		request.setAttribute("villes", Site.getInstance().getDaoVille().findAll());
+		request.setAttribute("transports", Site.getInstance().getDaoTransport().findAll());
 		this.getServletContext().getRequestDispatcher("/WEB-INF/admin.jsp").forward(request, response);
 	}
 
@@ -42,7 +42,7 @@ public class admin extends HttpServlet {
 		}
 		else if(action.equals("supprimerVille")) {
 			int id = Integer.parseInt(request.getParameter("id"));			
-			Site.getInstance().getDaoVille().delete(id);
+			Site.getInstance().getDaoVille().deleteById(id);
 		}
 		else if(action.equals("ajouterTransport")) {
 			String nomTransport = request.getParameter("nom_transport");
@@ -55,7 +55,7 @@ public class admin extends HttpServlet {
 		}
 		else if(action.equals("supprimerTransport")) {
 			int id = Integer.parseInt(request.getParameter("id"));			
-			Site.getInstance().getDaoTransport().delete(id);
+			Site.getInstance().getDaoTransport().deleteById(id);
 		}
 		
 		doGet(request,response);

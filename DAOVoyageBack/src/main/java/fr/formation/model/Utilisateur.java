@@ -1,4 +1,4 @@
-package model;
+package fr.formation.model;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import fr.formation.dao.IDAOCagnotte;
 
 @Entity
 @Table(name = "Utilisateur")
@@ -35,6 +37,8 @@ public abstract class Utilisateur {
 	
 	@Column(name = "type_compte", insertable = false, updatable = false)
 	protected String typeCompte;
+	
+	protected IDAOCagnotte daoCagnotte;
 	
 	public int getId() {
 		return id;

@@ -1,4 +1,4 @@
-package model;
+package fr.formation.model;
 
 import java.nio.MappedByteBuffer;
 

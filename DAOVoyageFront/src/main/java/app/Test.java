@@ -1,8 +1,8 @@
 package app;
 
 import dao.jdbc.DAOClientJDBC;
-import model.Utilisateur;
-import model.Site;
+import fr.formation.model.Site;
+import fr.formation.model.Utilisateur;
 
 public class Test {
 

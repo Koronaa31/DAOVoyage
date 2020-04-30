@@ -7,10 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Utilisateur;
-import model.Utilisateur;
-import model.Client;
-import model.Site;
+import fr.formation.model.Client;
+import fr.formation.model.Site;
+import fr.formation.model.Utilisateur;
 
 
 @WebServlet("/inscription")

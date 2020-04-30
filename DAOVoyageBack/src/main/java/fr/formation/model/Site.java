@@ -1,4 +1,4 @@
-package model;
+package fr.formation.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,18 +6,9 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import dao.DAOCagnotte;
-import dao.DAOTransport;
-import dao.DAOUtilisateur;
-import dao.DAOVille;
-import dao.DAOVoyage;
-import dao.jpa.DAOCagnotteJPA;
-import dao.jpa.DAOJpa;
-import dao.jdbc.DAOVilleJDBC;
-import dao.jpa.DAOTransportJPA;
-import dao.jpa.DAOUtilisateurJPA;
-import dao.jpa.DAOVilleJPA;
-import dao.jpa.DAOVoyageJPA;
+import fr.formation.dao.IDAOTransport;
+import fr.formation.dao.IDAOUtilisateur;
+import fr.formation.dao.IDAOVille;
 
 public class Site {
 
@@ -26,11 +17,9 @@ public class Site {
 	private Connection connection = null;
 	private static Site _instance = null;
 
-	private static DAOUtilisateur daoU;
-	private static DAOVille daoV;
-	private static DAOTransport daoT;
-	private static DAOCagnotte daoC;
-	private static DAOVoyage daoVoyage = null;
+	private static IDAOUtilisateur daoUtilisateur;
+	private static IDAOVille daoVille;
+	private static IDAOTransport daoTransport;
 
 	//-----------------------------------------------------//
 	//-----------------------------------------------------//
@@ -66,31 +55,6 @@ public class Site {
 	//-----------------------------------------------------//
 	//-----------------------------------------------------//
 
-	public static DAOUtilisateur getDaoUtilisateur() {
-		if (daoU == null) {daoU = new DAOUtilisateurJPA();}	//Changer ici pour passer en JPA/JDBC
-		return daoU;
-	}
-
-	public static DAOVille getDaoVille() {
-		if (daoV == null) {daoV = new DAOVilleJPA();}	//Changer ici pour passer en JPA/JDBC
-		return daoV;
-	}
-	
-	public static DAOTransport getDaoTransport() {
-		if (daoT == null) {daoT = new DAOTransportJPA();}	//Changer ici pour passer en JPA/JDBC
-		return daoT;
-	}
-	
-	public static DAOVoyage getDaoVoyage() {
-		if (daoVoyage == null) {daoVoyage = new DAOVoyageJPA();}	//Changer ici pour passer en JPA/JDBC
-		return daoVoyage;
-	}
-	
-	public static DAOCagnotte getDaoCagnotte() {
-		if (daoC == null) {daoC = new DAOCagnotteJPA();}	//Changer ici pour passer en JPA/JDBC
-		return daoC;
-	}
-
 	public static Site getInstance() {
 		if(_instance==null) {
 			_instance = new Site();
@@ -99,20 +63,20 @@ public class Site {
 	}
 
 	public Utilisateur checkConnect(String login, String password) {
-		return getDaoUtilisateur().selectByLoginPassword(login, password);
+		return daoUtilisateur.findByLoginAndPassword(login, password);
 	}
 
 	public void inscription(Utilisateur c) {
-		getDaoUtilisateur().insert(c);
+		daoUtilisateur.save(c);
 	}
 
 	public Utilisateur checkMail(String adresseMail) {
-		return getDaoUtilisateur().selectByAdresseMail(adresseMail);
+		return daoUtilisateur.findByAdresseMail(adresseMail);
 	}
 
 	public void research(Ville v1){
-		List<Ville> ville = getDaoVille().selectAll();
-		List<Transport> transport = getDaoTransport().selectAll();
+		List<Ville> ville = daoVille.findAll();
+		List<Transport> transport = daoTransport.findAll();
 
 		for(Ville v2 : ville)
 		{
@@ -128,7 +92,7 @@ public class Site {
 	}
 
 	public void research(Ville v1,Ville v2) {
-		List<Transport> transport = getDaoTransport().selectAll();
+		List<Transport> transport = daoTransport.findAll();
 		for (Transport t : transport)
 		{
 			Voyage v = new Voyage(v1,v2,t);
@@ -153,15 +117,15 @@ public class Site {
 	}
 	
 	public void ajoutVille(Ville v) {
-		getDaoVille().insert(v);
+		daoVille.save(v);
 	}
 	
 	public void ajoutTransport(Transport t) {
-		getDaoTransport().insert(t);
+		daoTransport.save(t);
 	}
 
 	public void listVilleDispo() {
-		List<Ville> ville = getDaoVille().selectAll();
+		List<Ville> ville = daoVille.findAll();
 		int i = 0;
 		for (Ville v : ville) {
 			i++;
@@ -170,7 +134,7 @@ public class Site {
 	}
 
 	public void listTransportDispo() {
-		List<Transport> transport = getDaoTransport().selectAll();
+		List<Transport> transport = daoTransport.findAll();
 		int i = 0;
 		for (Transport t : transport) {
 			i++;

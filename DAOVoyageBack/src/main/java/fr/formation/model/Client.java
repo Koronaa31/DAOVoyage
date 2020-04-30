@@ -1,4 +1,4 @@
-package model;
+package fr.formation.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -95,20 +95,20 @@ public class Client extends Utilisateur {
 
 	public void creationCagnotte(Voyage v) {
 		Cagnotte c = new Cagnotte(v.getPrix(), v.getClient(), this, v);
-		Site.getInstance().getDaoCagnotte().insert(c);
+		this.daoCagnotte.save(c);
 	}
 	
 	public void participer(double somme, Cagnotte c) {
 		double n = c.getSommeAPayer()-somme;
 		c.setSommeAPayer(n);
 		c.addParticipant(this);
-		Site.getInstance().getDaoCagnotte().update(c);
+		this.daoCagnotte.save(c);
 	}
 	
 	public void archives() {
-		cagnottesDestinataire = Site.getInstance().getDaoCagnotte().selectByDestinataire(this);
-		cagnottesInitiateur = Site.getInstance().getDaoCagnotte().selectByInitiateur(this);
-		cagnottesParticipant = Site.getInstance().getDaoCagnotte().selectByParticipant(this);
+		cagnottesDestinataire = this.daoCagnotte.findByDestinataire(this);
+		cagnottesInitiateur = this.daoCagnotte.findByInitiateur(this);
+		cagnottesParticipant = this.daoCagnotte.findByParticipant(this);
 		noDoublon(cagnottesDestinataire);
 		noDoublon(cagnottesInitiateur);
 		noDoublon(cagnottesParticipant);

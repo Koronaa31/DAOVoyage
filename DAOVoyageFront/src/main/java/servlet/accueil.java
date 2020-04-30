@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.Client;
-import model.Site;
-import model.Utilisateur;
-import model.Ville;
+import fr.formation.model.Client;
+import fr.formation.model.Site;
+import fr.formation.model.Utilisateur;
+import fr.formation.model.Ville;
 
 
 @WebServlet("/accueil")
 public class accueil extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Ville> villes = Site.getInstance().getDaoVille().selectAll();
+		List<Ville> villes = Site.getInstance().getDaoVille().findAll();
 		ArrayList nomsVilles = new ArrayList();
 		for(Ville v : villes) {
 			nomsVilles.add(v.getNom());

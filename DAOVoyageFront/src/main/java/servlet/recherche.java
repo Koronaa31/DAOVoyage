@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.*;
 import dao.*;
+import fr.formation.model.*;
 
 @WebServlet("/recherche")
 public class recherche extends HttpServlet {
@@ -33,15 +33,15 @@ public class recherche extends HttpServlet {
 		String villeDep = request.getParameter("v1");
 		String villeArr = request.getParameter("v2");
 		String transport = request.getParameter("t");
-		Ville v1 = Site.getInstance().getDaoVille().selectByNom(villeDep);
+		Ville v1 = Site.getInstance().getDaoVille().findByNom(villeDep);
 		
 		if (!villeArr.equals("N"))
 		{
-			Ville v2 = Site.getInstance().getDaoVille().selectByNom(villeArr);
+			Ville v2 = Site.getInstance().getDaoVille().findByNom(villeArr);
 			
 			if (!transport.equals("N"))
 			{
-				Transport t = Site.getInstance().getDaoTransport().selectByNom(transport);
+				Transport t = Site.getInstance().getDaoTransport().findByNom(transport);
 				Site.getInstance().research(v1,v2,t);
 			}
 			

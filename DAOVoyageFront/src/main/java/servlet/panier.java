@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DAOVille;
 import dao.jdbc.DAOVilleJDBC;
-import model.*;
+import fr.formation.model.*;
 
 @WebServlet("/panier")
 public class panier extends HttpServlet {
@@ -45,9 +45,9 @@ public class panier extends HttpServlet {
 			String villeDep = request.getParameter("v1");
 			String villeArr = request.getParameter("v2");
 			String transport = request.getParameter("t");	
-			Ville v1 = Site.getInstance().getDaoVille().selectByNom(villeDep);
-			Ville v2 = Site.getInstance().getDaoVille().selectByNom(villeArr);
-			Transport t = Site.getInstance().getDaoTransport().selectByNom(transport);
+			Ville v1 = Site.getInstance().getDaoVille().findByNom(villeDep);
+			Ville v2 = Site.getInstance().getDaoVille().findByNom(villeArr);
+			Transport t = Site.getInstance().getDaoTransport().findByNom(transport);
 			
 			Voyage voy = new Voyage(v1,v2,t);
 			
@@ -73,7 +73,7 @@ public class panier extends HttpServlet {
 	        System.out.println(client);
 			System.out.println("Voyage 2 : \n"+voyage);
 	        
-			Site.getInstance().getDaoVoyage().insert(voyage);
+			Site.getInstance().getDaoVoyage().save(voyage);
 			}
 			
 			Site.getInstance().getPanier().clear();

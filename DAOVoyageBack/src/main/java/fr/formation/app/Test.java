@@ -1,4 +1,4 @@
-package app;
+package fr.formation.app;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 import dao.jdbc.DAOClientJDBC;
 import dao.jdbc.DAOVilleJDBC;
-import model.Utilisateur;
-import model.Client;
-import model.Admin;
-import model.Site;
-import model.Transport;
-import model.Ville;
-import model.Voyage;
+import fr.formation.model.Admin;
+import fr.formation.model.Client;
+import fr.formation.model.Site;
+import fr.formation.model.Transport;
+import fr.formation.model.Utilisateur;
+import fr.formation.model.Ville;
+import fr.formation.model.Voyage;
 
 public class Test {
 
@@ -73,7 +73,7 @@ public class Test {
 	public static void inscription() {
 		DAOClientJDBC daoC = new DAOClientJDBC();
 		String mail = saisieString("Saisir adresse mail.");
-		c = daoC.selectByAdresseMail(mail);
+		c = daoC.findByAdresseMail(mail);
 		if (c == null) {
 			System.out.println("Adresse mail correcte.");
 			String login = saisieString("Saisir un login.");
@@ -172,7 +172,7 @@ public class Test {
 		Ville v =null;
 		DAOVilleJDBC daoV = new DAOVilleJDBC();
 		String v1Str = saisieString("\nSaisir votre ville "+moment);
-		v = daoV.selectByNom(v1Str);
+		v = daoV.findByNom(v1Str);
 		return v;
 	}
 

@@ -1,11 +1,11 @@
-package app;
+package fr.formation.app;
 
 import dao.jpa.DAOJpa;
-import model.Client;
-import model.Site;
-import model.Transport;
-import model.Ville;
-import model.Voyage;
+import fr.formation.model.Client;
+import fr.formation.model.Site;
+import fr.formation.model.Transport;
+import fr.formation.model.Ville;
+import fr.formation.model.Voyage;
 
 public class TestAntho {
 
@@ -23,10 +23,10 @@ public class TestAntho {
         System.out.println(u);
         }
         */
-        Ville ville1 = Site.getInstance().getDaoVille().selectById(1);
-        Ville ville2 = Site.getInstance().getDaoVille().selectById(2);
-        Transport transport = Site.getInstance().getDaoTransport().selectById(2);
-        Client client = (Client) Site.getInstance().getDaoUtilisateur().selectById(2);
+        Ville ville1 = Site.getInstance().getDaoVille().findById(1);
+        Ville ville2 = Site.getInstance().getDaoVille().findById(2);
+        Transport transport = Site.getInstance().getDaoTransport().findById(2);
+        Client client = (Client) Site.getInstance().getDaoUtilisateur().findById(2);
         System.out.println(client);
         
         Voyage voyage = new Voyage(ville1,ville2,transport);
@@ -34,7 +34,7 @@ public class TestAntho {
         voyage.setClient(client);
         System.out.println(voyage);
         
-        Site.getInstance().getDaoVoyage().insert(voyage);
+        Site.getInstance().getDaoVoyage().save(voyage);
         
         DAOJpa.close();
 	}
