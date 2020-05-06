@@ -9,7 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
 
 import fr.formation.config.AppConfig;
 import fr.formation.dao.IDAOCagnotte;
@@ -18,6 +20,7 @@ import fr.formation.dao.IDAOUtilisateur;
 import fr.formation.dao.IDAOVille;
 import fr.formation.dao.IDAOVoyage;
 
+@Service
 public class Site {
 
 	LinkedList<Voyage> voyage = new LinkedList<>();
@@ -25,10 +28,19 @@ public class Site {
 	private Connection connection = null;
 	private static Site _instance = null;
 
+	@Autowired
 	private IDAOUtilisateur daoUtilisateur;
+	
+	@Autowired
 	private IDAOVille daoVille;
+	
+	@Autowired
 	private IDAOTransport daoTransport;
+	
+	@Autowired
 	private IDAOCagnotte daoCagnotte;
+	
+	@Autowired
 	private IDAOVoyage daoVoyage;
 
 	//-----------------------------------------------------//
@@ -105,20 +117,20 @@ public class Site {
 		this.daoVoyage = daoVoyage;
 	}
 
-	public static Site getInstance() {
-		if(_instance==null) {
-			AnnotationConfigApplicationContext myContext = 
-					new AnnotationConfigApplicationContext(AppConfig.class);
-			
-			_instance = new Site();
-			_instance.daoTransport = myContext.getBean(IDAOTransport.class);
-			_instance.daoVoyage = myContext.getBean(IDAOVoyage.class);
-			_instance.daoCagnotte = myContext.getBean(IDAOCagnotte.class);
-			_instance.daoVille = myContext.getBean(IDAOVille.class);
-			_instance.daoUtilisateur = myContext.getBean(IDAOUtilisateur.class);
-		}
-		return _instance;
-	}
+//	public static Site getInstance() {
+//		if(_instance==null) {
+//			AnnotationConfigApplicationContext myContext = 
+//					new AnnotationConfigApplicationContext(AppConfig.class);
+//			
+//			_instance = new Site();
+//			_instance.daoTransport = myContext.getBean(IDAOTransport.class);
+//			_instance.daoVoyage = myContext.getBean(IDAOVoyage.class);
+//			_instance.daoCagnotte = myContext.getBean(IDAOCagnotte.class);
+//			_instance.daoVille = myContext.getBean(IDAOVille.class);
+//			_instance.daoUtilisateur = myContext.getBean(IDAOUtilisateur.class);
+//		}
+//		return _instance;
+//	}
 
 	public Utilisateur checkConnect(String login, String password) {
 		return daoUtilisateur.findByLoginAndPassword(login, password);
@@ -143,7 +155,7 @@ public class Site {
 				for (Transport t : transport)
 				{
 					Voyage voy = new Voyage(v1,v2,t);
-					Site.getInstance().voyage.add(voy);
+					this.voyage.add(voy);
 				}
 			}
 		}
@@ -154,24 +166,24 @@ public class Site {
 		for (Transport t : transport)
 		{
 			Voyage v = new Voyage(v1,v2,t);
-			Site.getInstance().voyage.add(v);
+			this.voyage.add(v);
 		}
 	}
 
 	public void research(Ville v1,Ville v2,Transport t) {
 		Voyage v = new Voyage(v1,v2,t);
-		Site.getInstance().voyage.add(v);
+		this.voyage.add(v);
 	}
 
 	public void choix(Voyage voy)
 	{
-		Site.getInstance().panier.add(voy);
+		this.panier.add(voy);
 		System.out.println("Panier garni !");
 	}
 
 	public void paiement () {
 		System.out.println("Paiement effectu� ! Merci Jordan.");
-		Site.getInstance().getPanier().clear();
+		this.getPanier().clear();
 	}
 	
 	public void ajoutVille(Ville v) {
