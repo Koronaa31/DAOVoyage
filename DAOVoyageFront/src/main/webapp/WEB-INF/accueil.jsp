@@ -8,10 +8,15 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Accueil DAO Voyage</title>
+		<script> 
+			$(function(){
+			$("#includedContent").load("scripts/actualisationListes.html"); 
+			});
+		</script> 
 	</head>
 
 	<body id="body" class="container-fluid">
-
+	
 		<header id="header" class="row">
 			<div id="logo" class="bandeauSup col-2"><img src="img/logoDef.png"/></div>
 			<div class="bandeauSup col-10"><img src="img/bandeau.jpg"/></div>
@@ -83,9 +88,10 @@
 				<p>"Mais, vous savez, moi je ne crois pas qu'il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd'hui avec vous, je dirais que c'est d'abord des rencontres, des gens qui m'ont tendu la main, peut-être à un moment où je ne pouvais pas, où j'étais seul chez moi. Et c'est assez curieux de se dire que les hasards, les rencontres forgent une destinée... Parce que quand on a le goût de la chose, quand on a le goût de la chose bien faite, le beau geste, parfois on ne trouve pas l'interlocuteur en face, je dirais, le miroir qui vous aide à avancer. Alors ce n'est pas mon cas, comme je le disais là, puisque moi au contraire, j'ai pu ; et je dis merci à la vie, je lui dis merci, je chante la vie, je danse la vie... Je ne suis qu'amour ! Et finalement, quand beaucoup de gens aujourd'hui me disent "Mais comment fais-tu pour avoir cette humanité ?", eh ben je leur réponds très simplement, je leur dis que c'est ce goût de l'amour, ce goût donc qui m'a poussé aujourd'hui à entreprendre une construction mécanique, mais demain, qui sait, peut-être seulement à me mettre au service de la communauté, à faire le don, le don de soi..."</p>
 				<h2>Effectuer une recherche</h2><br/>
 				<form class="form-group row" method="POST" action="recherche">
+					<div id="includedContent"></div>
 					<div class="col-4">
 						Ville de départ
-						<select required onchange="actVille2(this.form)" id="v1" name="v1" class="form-control formWidth">
+						<select required onchange="actVille2()" id="v1" name="v1" class="form-control formWidth">
 							<option disabled selected value="N">Sélectionnez une ville de départ</option>
 							<c:forEach items="${villes}" var="v">
 								<option v1="${v}" value="${v}">${v}</option>
@@ -94,17 +100,14 @@
 					</div>
 					<div class="col-4">
 						Ville d'arrivée
-						<select onchange="actTransport(this.form)" id="v2" name="v2" class="form-control formWidth">
+						<select onchange="actTransport()" id="v2" name="v2" class="form-control formWidth">
 							<option selected value="N">Toutes</option>
 						</select>
 					</div>
 					<div class="col-4">
 						Moyen de transport
-						<select name="t" class="form-control formWidth">
-							<option selected value="N">Toutes</option>
-							<c:forEach items="${transports}" var="t">
-								<option value="${t}">${t}</option>
-							</c:forEach>
+						<select id="t" name="t" class="form-control formWidth">
+							<option selected value="N">Tous</option>
 						</select>
 					</div>
 					<div id="rechercheButton" class="col-12">
@@ -120,63 +123,4 @@
 			<div class="col-4"><a href="inscription">Conditions de vente</a></div>
 		</footer>
 	</body>
-	
-<script>
-
-var villes2 = null;
-villes2 = new Array();
-
-var v2 = document.getElementById("v2");
-var t = document.getElementById("t");
-
-function actVille2(form) {
-
-	var l = v2.options.length;
-	for(j=0;j<l;j++) {
-	v2.remove(1);}
-	
-	var ville1 = document.getElementById("v1").value;
-	
-	villes2 = [];
-	
-	<c:forEach items="${villes}" var="v">
-		villes2.push('${ v }');
-	</c:forEach>
-
-	console.log(villes2);
-	
-	for(i=0;i<villes2.length;i++) {
-		if (villes2[i] == ville1) {villes2.splice(i,1);}
-		console.log(villes2[i]);
-	}
-	
-	console.log(villes2);
-	
-	for(
-		//c element of villes2
-		j=0;j<villes2.length;j++
-		) {
-		var c = document.createElement("option");
-		c.text = villes2[j];
-		console.log(villes2[j]);
-		  v2.options.add(c, j+1);
-		  }
-	
-};
-
-function actTransport(form) {
-	
-	var lt = t.options.length;
-	for(j=0;j<lt;j++) {
-	t.remove(1);}
-	
-	var ville1 = document.getElementById("v1").value;
-	
-	villes2 = [];
-	
-	
-};
-
-</script>
-	
 </html>

@@ -1,0 +1,51 @@
+<script>
+var villes2 = null;
+villes2 = new Array();
+
+var transports = null;
+transports = new Array();
+
+var v2 = $("#v2 option:selected").text;
+var t = $("#t option:selected").text;
+alert(v2);
+
+function actVille2() {
+
+	var l = v2.options.length;
+	for(j=0;j<l;j++) {v2.remove(1);}
+	
+	villes2 = [];
+	
+	for (const v of "${villes}")
+		{villes2.push(v);}
+	
+	var ville1 = document.getElementById("v1").value;
+	for(i=0;i<villes2.length;i++) {
+		if (villes2[i] == ville1) {villes2.splice(i,1);}
+	}
+	
+	for(j=0;j<villes2.length;j++) {
+		var c = document.createElement("option");
+		c.text = villes2[j];
+		v2.options.add(c, j+1);
+	}
+};
+
+function actTransport() {
+	
+	var lt = t.options.length;
+	for(j=0;j<lt;j++) {t.remove(1);}
+	
+	transports = [];
+	
+	for (const t of "${transports}") {transports.push(t);}
+	
+	if(v2.selectedIndex != 0) {
+	
+	for(j=0;j<transports.length;j++) {
+		var c = document.createElement("option");
+		c.text = transports[j];
+		t.options.add(c, j+1);}
+	}
+};
+</script>
