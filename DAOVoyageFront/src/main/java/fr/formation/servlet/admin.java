@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import fr.formation.model.Transport;
 import fr.formation.model.Ville;
 
 
-@WebServlet("/admin")
+//@WebServlet("/admin")
 public class admin extends SpringServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

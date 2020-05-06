@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +13,7 @@ import fr.formation.model.Client;
 import fr.formation.model.Site;
 import fr.formation.model.Voyage;
 
-@WebServlet("/commandes")
+//@WebServlet("/commandes")
 public class commandes extends SpringServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

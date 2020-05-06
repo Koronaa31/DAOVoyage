@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,7 +14,7 @@ import fr.formation.model.Transport;
 import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
 
-@WebServlet("/panier")
+//@WebServlet("/panier")
 public class panier extends SpringServlet {
 	       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

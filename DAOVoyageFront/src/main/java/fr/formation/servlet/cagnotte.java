@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,7 +17,7 @@ import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
 
 
-@WebServlet("/cagnotte")
+//@WebServlet("/cagnotte")
 public class cagnotte extends SpringServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

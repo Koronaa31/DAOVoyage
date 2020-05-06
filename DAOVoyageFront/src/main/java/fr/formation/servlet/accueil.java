@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import fr.formation.model.Transport;
 import fr.formation.model.Utilisateur;
 import fr.formation.model.Ville;
 
-@WebServlet("/accueil")
+//@WebServlet("/accueil")
 public class accueil extends SpringServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

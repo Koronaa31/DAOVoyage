@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -12,7 +12,7 @@ import fr.formation.model.Site;
 import fr.formation.model.Utilisateur;
 
 
-@WebServlet("/inscription")
+//@WebServlet("/inscription")
 public class inscription extends HttpServlet {
 
 	@Override
