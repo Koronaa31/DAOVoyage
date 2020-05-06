@@ -1,4 +1,4 @@
-package servlet;
+package fr.formation.servlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

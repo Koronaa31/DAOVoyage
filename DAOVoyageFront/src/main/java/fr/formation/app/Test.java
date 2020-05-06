@@ -1,4 +1,4 @@
-package app;
+package fr.formation.app;
 
 import fr.formation.model.Site;
 import fr.formation.model.Utilisateur;
