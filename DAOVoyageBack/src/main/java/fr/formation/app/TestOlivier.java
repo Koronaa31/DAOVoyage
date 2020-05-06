@@ -13,7 +13,7 @@ public class TestOlivier {
 
 	public static void main(String[] args) {
 
-		Client init = (Client) Site.getInstance().getDaoUtilisateur().findById(3).get();
+//		Client init = (Client) Site.getInstance().getDaoUtilisateur().findById(3).get();
 //		Client dest = (Client) Site.getInstance().getDaoUtilisateur().findById(4).get();
 //		
 //		Ville v1 = Site.getInstance().getDaoVille().findById(1).get();
@@ -29,9 +29,9 @@ public class TestOlivier {
 //		daoC.save(c);
 		
 
-		Site.getInstance().archives(init);
-		for(Cagnotte c : init.getCagnottesParticipant()) {
-			System.out.println(c.getParticipants());
-		}
+//		Site.getInstance().archives(init);
+//		for(Cagnotte c : init.getCagnottesParticipant()) {
+//			System.out.println(c.getParticipants());
+//		}
 	}
 }
