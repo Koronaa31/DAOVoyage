@@ -36,19 +36,19 @@ public class AccueilController {
 		Utilisateur u = site.checkConnect(login, password);
 		if (u != null) {
 			session.setAttribute("client", u);
-			session.setAttribute("isConnect", "Y");
+			session.setAttribute("error", "N");
 			if (u instanceof Admin) {
 				//return AdminController.getAdmin(model);
 			}
-		} else {session.setAttribute("isConnect", "N");}
-		return this.getAccueil(model);
+		} else {session.setAttribute("error", "Y");}
+		return "redirect:/accueil";
 	}
 	
 	@PostMapping("/accueil/disconnect")
 	public String invalidate(Model model, HttpSession session) {
 		site.getPanier().clear();
 		session.invalidate();
-		return this.getAccueil(model);
+		return "redirect:/accueil";
 	}
 	
 	
