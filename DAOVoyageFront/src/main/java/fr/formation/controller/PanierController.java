@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.formation.model.Client;
-import fr.formation.model.Site;
 import fr.formation.model.Transport;
 import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
@@ -66,5 +64,14 @@ public class PanierController extends SiteController {
 		System.out.println(nb);
 		site.getPanier().remove(nb);
 		return "redirect:/panier";
+	}
+	
+	@GetMapping("/commandes")
+	public String getCommandes(Model model, HttpSession session) {
+		String statut = "Commande";
+		Client client = (Client) session.getAttribute("client");
+		List<Voyage> loadPanier = site.getDaoVoyage().findByClientAndStatut(client, statut);
+		model.addAttribute("commandes", loadPanier);
+		return "commandes";
 	}
 }

@@ -8,10 +8,10 @@
 		<thead class="thead-dark">
 			<tr>
 				<td><strong>Supprimer</strong></td>
-				<td><strong>Ville de d�part</strong></td>
-				<td><strong>Ville d'arriv�e</strong></td>
+				<td><strong>Ville de départ</strong></td>
+				<td><strong>Ville d'arrivée</strong></td>
 				<td><strong>Moyen de transport</strong></td>
-				<td><strong>Dur�e</strong></td>
+				<td><strong>Durée</strong></td>
 				<td><strong>Prix</strong></td>
 			</tr>
 		</thead>
@@ -41,10 +41,8 @@
 
 	<div class="row">
 		<div class="col-6">
-			<form action="panier" method="POST">
-				<input type="hidden" name="action" value="paiement" /> <input
-					type="submit" name="action" value="Payer ma commande"
-					class="payer btn btn-info" />
+			<form action="panier/paiement" method="POST">
+ 				<input type="submit" name="action" value="Payer ma commande" class="payer btn btn-info" />
 			</form>
 		</div>
 		<div class="col-6">

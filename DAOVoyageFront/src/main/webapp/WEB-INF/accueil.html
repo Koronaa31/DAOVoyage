@@ -28,24 +28,24 @@
 		<form class="form-group row" method="POST" action="recherche">
 			<div class="col-4">
 				Ville de départ
-				<select required onchange="actVille2(this.form)" id="v1" name="v1" class="form-control formWidth">
+				<select required name="v1" class="form-control formWidth">
 					<option disabled selected value="N">Sélectionnez une ville de départ</option>
 					<option th:each="v : ${ villes }" th:value="${v.nom}">[[ ${ v.nom } ]]</option>
 				</select>
 			</div>
 			
 			<div class="col-4">
-				Ville d'arrivée <select onchange="actTransport(this.form)" id="v2"
-					name="v2" class="form-control formWidth">
+				Ville d'arrivée 
+				<select name="v2" class="form-control formWidth">
 					<option selected value="N">Toutes</option>
+					<option th:each="v : ${ villes }" th:value="${v.nom}">[[ ${ v.nom } ]]</option>
 				</select>
 			</div>
 			<div class="col-4">
-				Moyen de transport <select name="t" class="form-control formWidth">
+				Moyen de transport 
+				<select name="t" class="form-control formWidth">
 					<option selected value="N">Toutes</option>
-					<c:forEach items="${transports}" var="t">
-						<option value="${t}">${t}</option>
-					</c:forEach>
+					<option th:each="t : ${ transports }" th:value="${t.nom}">[[ ${ t.nom } ]]</option>
 				</select>
 			</div>
 			<div id="rechercheButton" class="col-12">
