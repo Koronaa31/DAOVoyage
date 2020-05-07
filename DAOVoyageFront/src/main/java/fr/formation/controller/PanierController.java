@@ -18,20 +18,21 @@ import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
 
 @Controller
-public class PanierController {
-	
-	@Autowired
-	Site site;
+public class PanierController extends SiteController {
 	
 	@GetMapping("/panier")
-	public String getPanier(HttpSession session) {
-		session.setAttribute("panier",  site.getPanier());
+	public String getPanier(Model model) {
+		model.addAttribute("panier",  site.getPanier());
 		double total=0;
 		for(Voyage voy : site.getPanier())
 		{
 			total+=voy.getPrix();
 		}
-		session.setAttribute("total", Math.floor(total*100)/100);
+		model.addAttribute("total", Math.floor(total*100)/100);
+		
+		for (Voyage v : site.getPanier())
+		System.out.println(v);
+		
 		return "panier";
 	}
 	
@@ -61,8 +62,9 @@ public class PanierController {
 	}
 
 	@PostMapping("/panier/remove")
-	public String removeById(@RequestParam int nb) {
+	public String removeById(@RequestParam(required = false) int nb) {
+		System.out.println(nb);
 		site.getPanier().remove(nb);
-		return "done";
+		return "redirect:/panier";
 	}
 }

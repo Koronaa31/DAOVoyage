@@ -8,35 +8,33 @@
 		<thead class="thead-dark">
 			<tr>
 				<td><strong>Supprimer</strong></td>
-				<td><strong>Ville de départ</strong></td>
-				<td><strong>Ville d'arrivée</strong></td>
+				<td><strong>Ville de dï¿½part</strong></td>
+				<td><strong>Ville d'arrivï¿½e</strong></td>
 				<td><strong>Moyen de transport</strong></td>
-				<td><strong>Durée</strong></td>
+				<td><strong>Durï¿½e</strong></td>
 				<td><strong>Prix</strong></td>
 			</tr>
 		</thead>
 
-		<div th:each="${ panier }" var="voy" varStatus="myIndex">
-		<tr>
-			<td>
-				<form action="panier/remove" method="POST">
-					<input type="hidden" name="nb" value="${myIndex.index}"> <input
-						type="hidden" name="action" value="deletePanier"> <input
-						type="submit" class="supprimerVoyage btn btn-outline-info"
-						value="Supprimer" />
-				</form>
-			</td>
-			<td>${voy.v1.nom}</td>
-			<td>${voy.v2.nom}</td>
-			<td>${voy.t.nom}</td>
-			<td>${voy.duree}</td>
-			<td>${voy.prix} €</td>
-		</tr>
-		</div>
+		
+			<tr th:each="voy,i : ${ panier }" >
+				<td>
+					<form action="panier/remove" method="POST">
+						<input type="hidden" name="nb" th:value="${i.index}" />
+						<input type="submit" class="supprimerVoyage btn btn-outline-info" value="Supprimer" />
+					</form>
+				</td>
+				<td>[[ ${voy.v1.nom} ]]</td>
+				<td>[[ ${voy.v2.nom} ]]</td>
+				<td>[[ ${voy.t.nom} ]]</td>
+				<td>[[ ${voy.duree} ]]</td>
+				<td>[[ ${voy.prix} ]] â‚¬</td>
+			</tr>
+	
 
 		<tr>
 			<td colspan="5">Total de votre commande</td>
-			<td><strong>${total} €</strong></td>
+			<td><strong>[[ ${total} ]] â‚¬</strong></td>
 		</tr>
 	</table>
 	<br />
@@ -54,11 +52,11 @@
 				value="Continuer mes achats" class="btn btn-info" /></a>
 		</div>
 	</div>
-</body>
-<script>
-	$(".payer").click(function() {
-		alert("Paiement validé, merci !")
-	});
-</script>
+	
+	<script>
+		$(".payer").click(function() {
+			alert("Paiement validï¿½, merci !")
+		});
+	</script>
 </body>
 </html>

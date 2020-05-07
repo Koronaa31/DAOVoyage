@@ -1,81 +1,78 @@
 <!DOCTYPE html>
 <html  th:replace="~{ fragments/layout.html :: layout('Voyages disponibles', ~{ ::main }) }">
-	
-	<main class="row">
-		<div class="centre col-10">
-			<h1>Voyages disponibles</h1> <br/>
-			<table class="table tableau">
-				<thead class="thead-dark">
-					<tr>
-						<td><strong>Sélectionner</strong></td>
-						<td><strong>Ville de départ</strong></td>
-						<td><strong>Ville d'arrivée</strong></td>
-						<td><strong>Moyen de transport</strong></td>
-						<td><strong>Durée</strong></td>
-						<td><strong>Prix</strong></td>
-					</tr>
-				</thead>
 
-				<tr th:each="voy : ${ recherche }">
-					<td> <input type="button" class="addPanier btn btn-outline-info" th:v1="${voy.v1.nom}" th:v2="${voy.v2.nom}" th:t="${voy.t.nom}" value="Ajouter au panier"></td>
-					<td>[[ ${ voy.v1.nom } ]]</td>
-					<td>[[ ${ voy.v2.nom } ]]</td>
-					<td>[[ ${ voy.t.nom } ]]</td>
-					<td>[[ ${ voy.duree } ]]</td>
-					<td>[[ ${ voy.prix } ]] €</td>
+	<main class="row">
+		<h1>Voyages disponibles</h1> <br/>
+		<table class="table tableau">
+			<thead class="thead-dark">
+				<tr>
+					<td><strong>Sélectionner</strong></td>
+					<td><strong>Ville de départ</strong></td>
+					<td><strong>Ville d'arrivée</strong></td>
+					<td><strong>Moyen de transport</strong></td>
+					<td><strong>Durée</strong></td>
+					<td><strong>Prix</strong></td>
 				</tr>
-			</table> <br/>
-			<div class="row col-12 boutonCentre">
-<!-- 					<a href="getPanier">  -->
-				<button class="showPanier btn btn-info">Accéder au panier ([[ ${nbPanier} ]])</button>
-<!-- 					</a> -->
-			</div> <br/>
-			<h2>Effectuer une nouvelle recherche</h2><br/>
-			<form class="form-group row" method="POST" action="recherche">
-				<div class="col-4">
-					Ville de départ
-					<select name="v1" class="form-control formWidth">
-						<option value="Toulouse">Toulouse</option>
-						<option value="Paris">Paris</option>
-						<option value="Lyon">Lyon</option>
-						<option value="Strasbourg">Strasbourg</option>
-						<option value="Nice">Nice</option>
-					</select>
-				</div>
-				<div class="col-4">
-					Ville d'arrivée
-					<select name="v2" class="form-control formWidth">
-						<option selected value="N">Toutes</option>
-						<option value="Toulouse">Toulouse</option>
-						<option value="Paris">Paris</option>
-						<option value="Lyon">Lyon</option>
-						<option value="Strasbourg">Strasbourg</option>
-						<option value="Nice">Nice</option>
-					</select>
-				</div>
-				<div class="col-4">
-					Moyen de transport
-					<select name="t" class="form-control formWidth">
-						<option selected value="N">Tous</option>
-						<option value="Avion">Avion</option>
-						<option value="Train">Train</option>
-						<option value="Bus">Bus</option>
-						<option value="Cheval">Cheval</option>
-						<option value="PoussePousse">PoussePousse</option>
-					</select>
-				</div>
-				<div id="rechercheButton" class="col-12">
-					<input class="btn btn-info" type="submit" value="Lancer la recherche">
-				</div>
-			</form>
-		</div>
+			</thead>
+
+			<tr th:each="voy : ${ recherche }">
+				<td> <input type="button" class="addPanier btn btn-outline-info" th:v1="${voy.v1.nom}" th:v2="${voy.v2.nom}" th:t="${voy.t.nom}" value="Ajouter au panier"></td>
+				<td>[[ ${ voy.v1.nom } ]]</td>
+				<td>[[ ${ voy.v2.nom } ]]</td>
+				<td>[[ ${ voy.t.nom } ]]</td>
+				<td>[[ ${ voy.duree } ]]</td>
+				<td>[[ ${ voy.prix } ]] €</td>
+			</tr>
+		</table> <br/>
+		<div class="row col-12 boutonCentre">
+		<a href="panier"> 
+			<button class="showPanier btn btn-info">Accéder au panier ([[ ${nbPanier} ]])</button>
+		</a>
+		</div> <br/>
+		<h2>Effectuer une nouvelle recherche</h2><br/>
+		<form class="form-group row" method="POST" action="recherche">
+			<div class="col-4">
+				Ville de départ
+				<select name="v1" class="form-control formWidth">
+					<option value="Toulouse">Toulouse</option>
+					<option value="Paris">Paris</option>
+					<option value="Lyon">Lyon</option>
+					<option value="Strasbourg">Strasbourg</option>
+					<option value="Nice">Nice</option>
+				</select>
+			</div>
+			<div class="col-4">
+				Ville d'arrivée
+				<select name="v2" class="form-control formWidth">
+					<option selected value="N">Toutes</option>
+					<option value="Toulouse">Toulouse</option>
+					<option value="Paris">Paris</option>
+					<option value="Lyon">Lyon</option>
+					<option value="Strasbourg">Strasbourg</option>
+					<option value="Nice">Nice</option>
+				</select>
+			</div>
+			<div class="col-4">
+				Moyen de transport
+				<select name="t" class="form-control formWidth">
+					<option selected value="N">Tous</option>
+					<option value="Avion">Avion</option>
+					<option value="Train">Train</option>
+					<option value="Bus">Bus</option>
+					<option value="Cheval">Cheval</option>
+					<option value="PoussePousse">PoussePousse</option>
+				</select>
+			</div>
+			<div id="rechercheButton" class="col-12">
+				<input class="btn btn-info" type="submit" value="Lancer la recherche">
+			</div>
+		</form>
 		
 		
 	
 		<script>
 		
 		$('.addPanier').click(function(){
-			alert('ok');
 			let btnClicked = $(this);
 			
 			let nomV1 = btnClicked.attr('v1');

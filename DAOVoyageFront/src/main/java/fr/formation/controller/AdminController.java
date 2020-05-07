@@ -17,13 +17,7 @@ import fr.formation.model.Transport;
 import fr.formation.model.Ville;
 
 @Controller
-public class AdminController {
-	
-	@Autowired
-	private Site site;
-	
-	
-	
+public class AdminController extends SiteController {
 	
 	@GetMapping("/admin")
 	public String getAdmin(Model model, HttpSession session) {

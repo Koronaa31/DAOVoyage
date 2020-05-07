@@ -18,10 +18,7 @@ import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
 
 @Controller
-public class CagnotteController {
-
-	@Autowired
-	private Site site;
+public class CagnotteController extends SiteController {
 
 	@GetMapping("/cagnotte")
 	public String getCagnotte() {
@@ -42,7 +39,7 @@ public class CagnotteController {
 			HttpSession session) {
 
 		////////////////////////////////////////////////////////////////////////////////////
-		/////////////////////////////////// Création ///////////////////////////////////////
+		/////////////////////////////////// Crï¿½ation ///////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		if (action.equals("creation")) {
 			model.addAttribute("aAfficher", "creation");

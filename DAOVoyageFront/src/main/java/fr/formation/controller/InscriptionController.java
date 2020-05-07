@@ -14,10 +14,7 @@ import fr.formation.model.Site;
 import fr.formation.model.Utilisateur;
 
 @Controller
-public class InscriptionController {
-	
-	@Autowired
-	Site site;
+public class InscriptionController extends SiteController {
 	
 	@GetMapping("/inscription")
 	public String getInscription() {

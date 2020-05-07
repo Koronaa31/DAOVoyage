@@ -19,10 +19,7 @@ import fr.formation.model.Utilisateur;
 import fr.formation.model.Ville;
 
 @Controller
-public class AccueilController {
-	
-	@Autowired
-	private Site site;
+public class AccueilController extends SiteController {
 	
 	@GetMapping("/accueil")
 	public String getAccueil(Model model) {

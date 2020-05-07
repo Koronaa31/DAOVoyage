@@ -1,5 +1,7 @@
 package fr.formation.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +17,7 @@ import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
 
 @Controller
-public class RechercheController {
-
-	@Autowired
-	private Site site;
-	
+public class RechercheController extends SiteController {	
 	
 	@GetMapping("/recherche")
 	public String getRecherche(Model model) {
@@ -52,7 +50,7 @@ public class RechercheController {
 	
 	@PostMapping("/ajoutPanier")
 	@ResponseBody
-	public int ajoutPanier(@RequestParam String nomV1 ,@RequestParam String nomV2, @RequestParam String nomT) {
+	public int ajoutPanier(@RequestParam String nomV1 ,@RequestParam String nomV2, @RequestParam String nomT, HttpSession session) {
 		
 		System.out.println(nomV1);
 		
@@ -61,7 +59,6 @@ public class RechercheController {
 		Transport t = site.getDaoTransport().findByNom(nomT);
 		
 		Voyage voy = new Voyage(v1,v2,t);
-		System.out.println(voy);
 		site.choix(voy);
 		
 		return site.getPanier().size();
