@@ -38,7 +38,7 @@ public class AccueilController {
 			session.setAttribute("client", u);
 			session.setAttribute("error", "N");
 			if (u instanceof Admin) {
-				//return AdminController.getAdmin(model);
+				return "redirect:/admin";
 			}
 		} else {session.setAttribute("error", "Y");}
 		return "redirect:/accueil";
