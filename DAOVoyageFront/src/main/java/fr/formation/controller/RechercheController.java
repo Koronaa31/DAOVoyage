@@ -1,5 +1,8 @@
 package fr.formation.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.formation.model.Site;
 import fr.formation.model.Transport;
@@ -50,7 +56,7 @@ public class RechercheController extends SiteController {
 	
 	@PostMapping("/ajoutPanier")
 	@ResponseBody
-	public int ajoutPanier(@RequestParam String nomV1 ,@RequestParam String nomV2, @RequestParam String nomT, HttpSession session) {
+	public int ajoutPanier(@RequestParam String nomV1 ,@RequestParam String nomV2, @RequestParam String nomT) {
 		
 		System.out.println(nomV1);
 		
@@ -62,6 +68,27 @@ public class RechercheController extends SiteController {
 		site.choix(voy);
 		
 		return site.getPanier().size();
+	}
+	
+	@PostMapping("/actVille2")
+	@ResponseBody
+	public String actVille2(@RequestParam String v1) {
+		
+		
+		List<Ville> listeVilles2 = site.getDaoVille().findAll();
+		List<Ville> villes2 = new ArrayList<>();
+		
+		for(Ville v : listeVilles2) {
+			if (!v.getNom().equals(v1)) {villes2.add(v);}
+			}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString;
+		try {
+			jsonString = mapper.writeValueAsString(villes2);
+		} catch (JsonProcessingException e) {e.printStackTrace();return null;}
+		
+		return jsonString;
 	}
 	
 }
