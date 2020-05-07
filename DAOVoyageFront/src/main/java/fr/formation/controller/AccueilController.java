@@ -32,7 +32,7 @@ public class AccueilController {
 	@PostMapping("/accueil/connect")
 	public String checkConnect(@RequestParam String login,
 							   @RequestParam String password,
-								Model model, HttpSession session) {
+								HttpSession session) {
 		Utilisateur u = site.checkConnect(login, password);
 		if (u != null) {
 			session.setAttribute("client", u);
@@ -50,6 +50,8 @@ public class AccueilController {
 		session.invalidate();
 		return "redirect:/accueil";
 	}
+	
+	
 	
 	
 	@ModelAttribute("villes")

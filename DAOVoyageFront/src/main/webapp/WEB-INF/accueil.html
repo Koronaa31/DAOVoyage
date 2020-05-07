@@ -24,17 +24,16 @@
 			le don, le don de soi..."</p>
 		<h2>Effectuer une recherche</h2>
 		<br />
+		
 		<form class="form-group row" method="POST" action="recherche">
 			<div class="col-4">
-				Ville de départ<select required onchange="actVille2(this.form)"
-					id="v1" name="v1" class="form-control formWidth">
-					<option disabled selected value="N">Sélectionnez une ville
-						de départ</option>
-					<c:forEach items="${villes}" var="v">
-						<option v1="${v}" value="${v}">${v}</option>
-					</c:forEach>
+				Ville de départ
+				<select required onchange="actVille2(this.form)" id="v1" name="v1" class="form-control formWidth">
+					<option disabled selected value="N">Sélectionnez une ville de départ</option>
+					<option th:each="v : ${ villes }" th:value="${v.nom}">[[ ${ v.nom } ]]</option>
 				</select>
 			</div>
+			
 			<div class="col-4">
 				Ville d'arrivée <select onchange="actTransport(this.form)" id="v2"
 					name="v2" class="form-control formWidth">
@@ -105,3 +104,4 @@
 	</script>
 </body>
 </html>
+
