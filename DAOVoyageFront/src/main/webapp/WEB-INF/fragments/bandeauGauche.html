@@ -1,0 +1,69 @@
+<html th:fragment="bandeauGauche">
+	<div th:if="${ session.client != null }" id="Welcome">Bienvenue
+		[[ ${ session.client.login } ]].</div>
+
+	<div th:if="${ session.client == null }">
+		<div id="inscription">
+			<a href="inscription">Inscription</a>
+		</div>
+		Déjà abonné ? <br />
+		<form class="form-group" method="POST" action="accueil/connect"
+			name="formConnection">
+			<input class="form-control inputWidth" required placeholder="Login" type="text" name="login" />
+				<input class="form-control inputWidth" required placeholder="Password" type="password" name="password" />
+				<input class="btn btn-info" value="Se connecter" type="submit" />
+				<input type="hidden" name="action" value="seConnecter" />
+		</form>
+	</div>
+
+	<div th:if="${ session.error == 'Y' }" id="error">Login/Password
+		incorrects !</div>
+
+	<div id="panier">
+		<a href="panier">Voir mon panier.</a><br />
+	</div>
+
+	<div th:if="${ session.client != null }">
+		<div>
+			<a href="commandes">Voir mes commandes</a><br />
+		</div>
+
+		<form method="POST" action="cagnotte">
+			<div class="form-row align-items-center">
+				<div class="col-auto my-1">
+					<label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+					<select required class="custom-select mr-sm-2"
+						id="inlineFormCustomSelect" name="action">
+						<option selected disabled>Cagnotte</option>
+						<option value="accueilCreation">Création</option>
+						<option value="accueilParticipation">Participation</option>
+						<option value="archives">Archives</option>
+					</select>
+				</div>
+				<div class="col-auto my-1">
+					<button type="submit" class="btn btn-success">Soumettre</button>
+				</div>
+			</div>
+		</form>
+
+		<div id="seDeconnecter">
+			<form method="POST" action="accueil/disconnect">
+				<input type="hidden" name="action" value="seDeconnecter"> <input
+					type="submit" class="btn btn-danger" value="Log out" />
+			</form>
+		</div>
+	</div>
+
+	<div id="sponsor" class="bandeauSponsor">
+		<h6>Nos sponsors :</h6>
+		<div class="divImage">
+			<img th:src="@{/assets/img/airnul.png}" />
+		</div>
+		<div class="divImage">
+			<img th:src="@{/assets/img/snif.png}" />
+		</div>
+		<div class="divImage">
+			<img th:src="@{/assets/img/brigitteBus.png}" />
+		</div>
+	</div>
+</html>
