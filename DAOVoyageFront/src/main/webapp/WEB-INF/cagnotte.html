@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html th:replace="~{ fragments/layout.html :: layout('Cagnotte', ~{ ::body }) }">
 	<body id="body" class="container-fluid">
+	
 	<!--------------------------------- Creation ---------------------------------
 	------------------------------------------------------------------------------
 	------------------------------------------------------------------------------
@@ -28,21 +29,19 @@
 							<input type="hidden" name="action2" value="creationCagnotte"/>
 							
 							Ville de départ
-							<select required name="v1" class="form-control formWidth">
-								<option selected value="N">Sélectionnez une ville de départ</option>
-								<option th:each="v : ${villes}" th:value="${v.id}">[[ ${v.nom} ]]</option>
+							<select required id="v1" name="v1" class="form-control formWidth">
+								<option disabled selected value="N">Sélectionnez une ville de départ</option>
+								<option th:each="v : ${ villes }" th:value="${v.nom}">[[ ${ v.nom } ]]</option>
 							</select>
 							
 							Ville d'arrivée
-							<select required name="v2" class="form-control formWidth">
-								<option selected value="N">Sélectionnez une ville d'arrivée</option>
-								<option th:each="v : ${villes}" th:value="${v.id}">[[ ${v.nom} ]]</option>
+							<select id="v2" name="v2" class="form-control formWidth">
+								<option selected value="N">Toutes</option>
 							</select>
 							
 							Moyen de transport
-							<select required name="t" class="form-control formWidth">
-								<option selected value="N">Sélectionnez un transport</option>
-								<option th:each="t : ${transports}" th:value="${t.id}">[[ ${t.nom} ]]</option>
+							<select id="t" name="t" class="form-control formWidth">
+								<option selected value="N">Tous</option>
 							</select>
 							
 							<div id="rechercheButton" class="col-12">
@@ -204,5 +203,59 @@
 				</tr>
 			</table>
 		</div>
+		
+	<script th:inline="javascript">
+	
+	var v2 = document.querySelector('[id="v2"]');
+	var t = document.querySelector('[id="t"]');
+
+	$('#v1').change(function() {
+		
+		var l = v2.options.length;
+		for (j = 0; j < l; j++) {
+			v2.remove(1);}
+		
+		let ville1 = $('#v1 option:selected').val();
+		
+		$.ajax('actVille2', {
+			type: 'POST',
+			data: { v1: ville1
+			},
+			success: function(liste) {
+				var villes2 = JSON.parse(liste);
+				
+				for (j = 0; j < villes2.length; j++) {
+					var c = document.createElement("option");
+					c.text = villes2[j].nom;
+					v2.options.add(c, j + 1);
+				}
+			}
+		});
+		
+	});
+
+	
+	$('#v2').change(function() {
+	
+		var lt = t.options.length;
+		for(j = 0 ; j < lt ; j++) {
+			t.remove(1);}
+		
+		transports = [];
+		
+		if(v2.selectedIndex != 0) {
+			for (const t of [[${transports}]]) {
+				transports.push(t.nom);
+			}
+		
+			for(j = 0 ; j < transports.length ; j++) {
+				var c = document.createElement("option");
+				c.text = transports[j];
+				t.options.add(c, j+1);
+			}
+		}
+	});
+	</script>
+		
 	</body>
 </html>

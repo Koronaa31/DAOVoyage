@@ -2,12 +2,10 @@ package fr.formation.app;
 
 import java.util.List;
 
-import fr.formation.model.Cagnotte;
-import fr.formation.model.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.formation.model.Site;
-import fr.formation.model.Transport;
 import fr.formation.model.Ville;
-import fr.formation.model.Voyage;
 
 public class TestOlivier {
 

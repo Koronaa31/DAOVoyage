@@ -30,9 +30,9 @@ public class CagnotteController extends SiteController {
 	public String postCagnotte(@RequestParam String action,
 			@RequestParam (required = false) String action2,
 			@RequestParam (required = false) String loginDestinataire,
-			@RequestParam (required = false) Integer v1,
-			@RequestParam (required = false) Integer v2,
-			@RequestParam (required = false) Integer t,
+			@RequestParam (required = false) String v1,
+			@RequestParam (required = false) String v2,
+			@RequestParam (required = false) String t,
 			@RequestParam (required = false) Double sommePayee,
 			@RequestParam (required = false) Integer cagnotteChoisie,
 			Model model,
@@ -53,9 +53,9 @@ public class CagnotteController extends SiteController {
 						model.addAttribute("cagnotteSuccess", "N");
 						return "/cagnotte";
 					}
-					Voyage v = new Voyage(site.getDaoVille().findById(v1).orElse(new Ville()),
-							site.getDaoVille().findById(v2).orElse(new Ville()),
-							site.getDaoTransport().findById(t).orElse(new Transport()),
+					Voyage v = new Voyage(site.getDaoVille().findByNom(v1),
+							site.getDaoVille().findByNom(v2),
+							site.getDaoTransport().findByNom(t),
 							destinataire);
 					v.setStatut("Cagnotte");
 					site.creationCagnotte(v, initiateur);

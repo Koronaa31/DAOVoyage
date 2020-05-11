@@ -35,14 +35,13 @@
 			</div>
 
 			<div class="col-4">Ville d'arrivée
-				<select onchange="actTransport(this.form)" id="v2" name="v2" class="form-control formWidth">
+				<select id="v2" name="v2" class="form-control formWidth">
 					<option selected value="N">Toutes</option>
 				</select>
 			</div>
 			<div class="col-4">Moyen de transport
-				<select name="t" class="form-control formWidth">
-					<option selected value="N">Toutes</option>
-					<option th:each="t : ${transports}" th:value="${t.nom}">[[ ${t.nom} ]]</option>
+				<select id="t" name="t" class="form-control formWidth">
+					<option selected value="N">Tous</option>
 				</select>
 			</div>
 			<div id="rechercheButton" class="col-12">
@@ -51,10 +50,11 @@
 		</form>
 	</div>
 
-	<script>
+
+	<script th:inline="javascript">
 	
 	var v2 = document.querySelector('[id="v2"]');
-	//var t = $("#t option:selected").nom;
+	var t = document.querySelector('[id="t"]');
 
 	$('#v1').change(function() {
 		
@@ -81,24 +81,28 @@
 		
 	});
 
-	function actTransport() {
+	
+	$('#v2').change(function() {
 	
 		var lt = t.options.length;
-		for(j=0;j<lt;j++) {t.remove(1);}
-	
-		transports = [];
-	
-		for (const t of "${transports}") {transports.push(t);}
-	
+		for(j = 0 ; j < lt ; j++) {
+			t.remove(1);}
+		
+		let transports = [];
+		
 		if(v2.selectedIndex != 0) {
-	
-		for(j=0;j<transports.length;j++) {
-			var c = document.createElement("option");
-			c.text = transports[j];
-			t.options.add(c, j+1);}
+			for (const t of [[${transports}]]) {
+				transports.push(t.nom);
+			}
+		
+			for(j = 0 ; j < transports.length ; j++) {
+				var c = document.createElement("option");
+				c.text = transports[j];
+				t.options.add(c, j+1);
+			}
 		}
-	};
-</script>
+	});
+	</script>
 </body>
 </html>
 
