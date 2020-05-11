@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.formation.model.Client;
 import fr.formation.model.Transport;
@@ -59,11 +60,25 @@ public class PanierController extends SiteController {
 		return "redirect:/panier";
 	}
 
+//	@PostMapping("/panier/remove")
+//	public String removeById(@RequestParam(required = false) int nb) {
+//		System.out.println(nb);
+//		site.getPanier().remove(nb);
+//		return "redirect:/panier";
+//	}
+	
 	@PostMapping("/panier/remove")
-	public String removeById(@RequestParam(required = false) int nb) {
-		System.out.println(nb);
-		site.getPanier().remove(nb);
-		return "redirect:/panier";
+	@ResponseBody
+	public String supprimerDuPanier(@RequestParam int i) {
+		site.getPanier().remove(i-1);
+		
+		double total=0;
+		for(Voyage voy : site.getPanier())
+		{
+			total+=voy.getPrix();
+		}
+		
+		return String.valueOf(Math.floor(total*100)/100);
 	}
 	
 	@GetMapping("/commandes")

@@ -4,7 +4,7 @@
 <body class="centre">
 	<h1>Voici votre panier :</h1>
 	<br />
-	<table class="table tableau">
+	<table id="table" class="table tableau">
 		<thead class="thead-dark">
 			<tr>
 				<td><strong>Supprimer</strong></td>
@@ -19,10 +19,10 @@
 		
 			<tr th:each="voy,i : ${ panier }" >
 				<td>
-					<form action="panier/remove" method="POST">
-						<input type="hidden" name="nb" th:value="${i.index}" />
-						<input type="submit" class="supprimerVoyage btn btn-outline-info" value="Supprimer" />
-					</form>
+<!-- 					<form action="panier/remove" method="POST"> -->
+<!-- 						<input type="hidden" name="nb" th:value="${i.index}" /> -->
+						<input type="submit" class="supprimerVoyage btn btn-outline-info" value="Supprimer" th:index="${i.index}" />
+<!-- 					</form> -->
 				</td>
 				<td>[[ ${voy.v1.nom} ]]</td>
 				<td>[[ ${voy.v2.nom} ]]</td>
@@ -34,7 +34,7 @@
 
 		<tr>
 			<td colspan="5">Total de votre commande</td>
-			<td><strong>[[ ${total} ]] €</strong></td>
+			<td><strong id="prixPanier">[[ ${total} ]] €</strong></td>
 		</tr>
 	</table>
 	<br />
@@ -55,6 +55,22 @@
 		$(".payer").click(function() {
 			alert("Paiement valid�, merci !")
 		});
+		
+		
+		$('.supprimerVoyage').click(function() {
+			let i = this.parentNode.parentNode.rowIndex;
+			
+			$.ajax('panier/remove', {
+				type: 'POST',
+				data: {i: i},
+				success: function(total) {
+					document.getElementById('table').deleteRow(i);
+					document.getElementById('prixPanier').innerHTML = total + ' €';
+				}
+			});
+		});
+		
+		
 	</script>
 </body>
 </html>
