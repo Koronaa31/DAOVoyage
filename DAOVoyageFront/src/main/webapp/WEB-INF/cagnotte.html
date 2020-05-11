@@ -18,7 +18,7 @@
 					<form class="form-group" method="POST" action="cagnotte">
 						<div class="form-group">
 							<label>Client Destinataire</label>
-							<input name="loginDestinataire" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+							<input name="loginDestinataire" type="text" class="form-control" id="loginDest" aria-describedby="emailHelp">
 							<div th:if="${ cagnotteSuccess == 'N' }">
 								<font color="red">Ce destinataire n'existe pas</font>
 							</div>
@@ -254,6 +254,23 @@
 				t.options.add(c, j+1);
 			}
 		}
+	});
+	
+	$('#loginDest').change(function() {
+		
+		let loginDest = $('#loginDest').val();
+		
+		$.ajax('cagnotte/checkLoginDest', {
+			type: 'POST',
+			data: { loginDest: loginDest
+			},
+			success: function(error) {
+				if (error == "Y"){
+					alert("Ce desinataire n'existe pas !")
+				}
+			}
+		});
+		
 	});
 	</script>
 		

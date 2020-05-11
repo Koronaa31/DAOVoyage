@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.formation.model.Cagnotte;
 import fr.formation.model.Client;
@@ -107,5 +108,15 @@ public class CagnotteController extends SiteController {
 			model.addAttribute("aAfficher", "archives");
 		}
 		return "/cagnotte";	
+	}
+	
+	
+	
+	@PostMapping("/cagnotte/checkLoginDest")
+	@ResponseBody
+	public String checkLoginDest(@RequestParam String loginDest) {
+		Client c = (Client) site.getDaoUtilisateur().findByLogin(loginDest);
+		if (c == null) {return "Y";}
+		else {return "N";}
 	}
 }
