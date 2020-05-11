@@ -41,7 +41,7 @@ public class RechercheController extends SiteController {
 		
 		Ville ville1 = site.getDaoVille().findByNom(v1);
 		
-		if (!v1.equals("N")) {
+		if (!v2.equals("N")) {
 			Ville ville2 = site.getDaoVille().findByNom(v2);
 			
 			if (!t.equals("N")) {
