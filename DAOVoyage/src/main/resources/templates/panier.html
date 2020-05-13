@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html
+	th:replace="~{ fragments/layout.html :: layout('Panier', ~{ ::body }) }">
+<body class="centre">
+	<h1>Voici votre panier :</h1>
+	<br />
+	<table id="table" class="table tableau">
+		<thead class="thead-dark">
+			<tr>
+				<td><strong>Supprimer</strong></td>
+				<td><strong>Ville de départ</strong></td>
+				<td><strong>Ville d'arrivée</strong></td>
+				<td><strong>Moyen de transport</strong></td>
+				<td><strong>Durée</strong></td>
+				<td><strong>Prix</strong></td>
+			</tr>
+		</thead>
+
+		
+			<tr th:each="voy,i : ${ panier }" >
+				<td>
+<!-- 					<form action="panier/remove" method="POST"> -->
+<!-- 						<input type="hidden" name="nb" th:value="${i.index}" /> -->
+						<input type="submit" class="supprimerVoyage btn btn-outline-info" value="Supprimer" th:index="${i.index}" />
+<!-- 					</form> -->
+				</td>
+				<td>[[ ${voy.v1.nom} ]]</td>
+				<td>[[ ${voy.v2.nom} ]]</td>
+				<td>[[ ${voy.t.nom} ]]</td>
+				<td>[[ ${voy.duree} ]]</td>
+				<td>[[ ${voy.prix} ]] €</td>
+			</tr>
+	
+
+		<tr>
+			<td colspan="5">Total de votre commande</td>
+			<td><strong id="prixPanier">[[ ${total} ]] €</strong></td>
+		</tr>
+	</table>
+	<br />
+
+	<div class="row">
+		<div class="col-6">
+			<form action="panier/paiement" method="POST">
+ 				<input type="submit" name="action" value="Payer ma commande" class="payer btn btn-info" />
+			</form>
+		</div>
+		<div class="col-6">
+			<a href="accueil"><input type="button"
+				value="Continuer mes achats" class="btn btn-info" /></a>
+		</div>
+	</div>
+	
+	<script>
+		$(".payer").click(function() {
+			alert("Paiement valid�, merci !")
+		});
+		
+		
+		$('.supprimerVoyage').click(function() {
+			let i = this.parentNode.parentNode.rowIndex;
+			
+			$.ajax('panier/remove', {
+				type: 'POST',
+				data: {i: i},
+				success: function(total) {
+					document.getElementById('table').deleteRow(i);
+					document.getElementById('prixPanier').innerHTML = total + ' €';
+				}
+			});
+		});
+		
+		
+	</script>
+</body>
+</html>

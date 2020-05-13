@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html
+	th:replace="~{ fragments/layout.html :: layout('Accueil', ~{ ::body }) }">
+<body id="body" class="container-fluid">
+	<div>
+		<h1>Bienvenue sur DAO Voyage</h1>
+		<br />
+		<p>"Mais, vous savez, moi je ne crois pas qu'il y ait de bonne ou
+			de mauvaise situation. Moi, si je devais résumer ma vie aujourd'hui
+			avec vous, je dirais que c'est d'abord des rencontres, des gens qui
+			m'ont tendu la main, peut-être à un moment où je ne pouvais pas, où
+			j'étais seul chez moi. Et c'est assez curieux de se dire que les
+			hasards, les rencontres forgent une destinée... Parce que quand on a
+			le goût de la chose, quand on a le goût de la chose bien faite, le
+			beau geste, parfois on ne trouve pas l'interlocuteur en face, je
+			dirais, le miroir qui vous aide à avancer. Alors ce n'est pas mon
+			cas, comme je le disais là, puisque moi au contraire, j'ai pu ; et je
+			dis merci à la vie, je lui dis merci, je chante la vie, je danse la
+			vie... Je ne suis qu'amour ! Et finalement, quand beaucoup de gens
+			aujourd'hui me disent "Mais comment fais-tu pour avoir cette humanité
+			?", eh ben je leur réponds très simplement, je leur dis que c'est ce
+			goût de l'amour, ce goût donc qui m'a poussé aujourd'hui à
+			entreprendre une construction mécanique, mais demain, qui sait,
+			peut-être seulement à me mettre au service de la communauté, à faire
+			le don, le don de soi..."</p>
+		<h2>Effectuer une recherche</h2>
+		<br />
+
+		<form class="form-group row" method="POST" action="recherche">
+			<div class="col-4">Ville de départ
+				<select required id="v1" name="v1" class="form-control formWidth">
+					<option disabled selected value="N">Sélectionnez une ville de départ</option>
+					<option th:each="v : ${ villes }" th:value="${v.nom}">[[ ${ v.nom } ]]</option>
+				</select>
+			</div>
+
+			<div class="col-4">Ville d'arrivée
+				<select id="v2" name="v2" class="form-control formWidth">
+					<option selected value="N">Toutes</option>
+				</select>
+			</div>
+			<div class="col-4">Moyen de transport
+				<select id="t" name="t" class="form-control formWidth">
+					<option selected value="N">Tous</option>
+				</select>
+			</div>
+			<div id="rechercheButton" class="col-12">
+				<input class="btn btn-info" type="submit" value="Lancer la recherche">
+			</div>
+		</form>
+	</div>
+
+
+	<script th:inline="javascript">
+	
+	var v2 = document.querySelector('[id="v2"]');
+	var t = document.querySelector('[id="t"]');
+
+	$('#v1').change(function() {
+		
+		var l = v2.options.length;
+		for (j = 0; j < l; j++) {
+			v2.remove(1);}
+		
+		let ville1 = $('#v1 option:selected').val();
+		
+		$.ajax('actVille2', {
+			type: 'POST',
+			data: { v1: ville1
+			},
+			success: function(liste) {
+				var villes2 = JSON.parse(liste);
+				
+				for (j = 0; j < villes2.length; j++) {
+					var c = document.createElement("option");
+					c.text = villes2[j].nom;
+					v2.options.add(c, j + 1);
+				}
+			}
+		});
+		
+	});
+
+	
+	$('#v2').change(function() {
+	
+		var lt = t.options.length;
+		for(j = 0 ; j < lt ; j++) {
+			t.remove(1);}
+		
+		let transports = [];
+		
+		if(v2.selectedIndex != 0) {
+			for (const t of [[${transports}]]) {
+				transports.push(t.nom);
+			}
+		
+			for(j = 0 ; j < transports.length ; j++) {
+				var c = document.createElement("option");
+				c.text = transports[j];
+				t.options.add(c, j+1);
+			}
+		}
+	});
+	</script>
+</body>
+</html>
+
