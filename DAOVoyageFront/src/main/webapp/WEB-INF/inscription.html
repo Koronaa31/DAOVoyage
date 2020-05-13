@@ -18,12 +18,12 @@
 						<br />
 						<form id="form" method="POST" action="inscription">
 							<div>
-								</br> <input class="form-control" type="text" name="login"
+								</br> <input id="login" class="form-control" type="text" name="login"
 									th:value="${session.login}" placeholder="Identifiant" required />
 							</div>
 							<div>
 								</br> <input id="checkMail" class="form-control" type="email"
-									name="adresseMail" th:value="${session.adresseMail}"
+									name="adresseMail"
 									placeholder="Adresse e-mail" required />
 							</div>
 							</br/>
@@ -51,6 +51,7 @@
 			</div>
 	</main>
 	<script>
+	/*
 $(document).ready(function() {
 	var $submitBtn = $("#form input[type='submit']");
 	var $passwordBox = $("#password");
@@ -80,6 +81,7 @@ $(document).ready(function() {
 	$("#confirm_password, #password").on("keydown",function(e) {
 			/* only check when the tab or enter keys are pressed
 			 * to prevent the method from being called needlessly  */
+			 /*
 			if (e.keyCode == 13 || e.keyCode == 9) {
 				checkMatchingPasswords();
 			}
@@ -91,13 +93,15 @@ $(document).ready(function() {
 		resetPasswordError();
 	})
 });
+*/
 
 
 
-$("#checkMail").blur(function() {
-	let mail = $(this).value;
+$('#checkMail').blur(function() {
+	let mail = document.querySelector('#checkMail').value;
 	console.log(mail);
 	if (mail.length > 5) {
+		console.log('mail length');
 		fetch('inscription/checkMail', {
 			method: 'POST',
 			body: mail,
@@ -105,16 +109,17 @@ $("#checkMail").blur(function() {
 		.then(resp => {
 			if (resp == "notValid") {
 				//"L'adresse est incorrecte ou déjà utilisée"
+				console.log('notvalid');
 				$('#mailNotValid').style.display = 'block';
 				$('#mailValid').style.display = 'none';
 			}
 			else if (resp == "valid") {
 				//"Adresse valide"
+				console.log('notvalid');
 				$('#mailNotValid').style.display = 'none';
 				$('#mailValid').style.display = 'block';
 			}
 			
-			document.querySelector('button').innerHTML = visite.prix;
 		});
 	}
 });

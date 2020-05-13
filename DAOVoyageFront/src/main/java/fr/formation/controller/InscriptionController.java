@@ -15,18 +15,18 @@ import fr.formation.model.Utilisateur;
 
 @Controller
 public class InscriptionController extends SiteController {
-	
+
 	@GetMapping("/inscription")
 	public String getInscription() {
 		return "inscription";
 	}
-	
+
 	@PostMapping("/inscription")
 	public String postInscription(
 			@RequestParam String adresseMail,
 			@RequestParam String login,
 			@RequestParam String password, Model model, HttpSession session) {
-		
+
 		Utilisateur u = site.checkMail(adresseMail);
 		if (u == null) {
 			u = new Client(login, password, adresseMail);
@@ -38,21 +38,19 @@ public class InscriptionController extends SiteController {
 			return getInscription();
 		}
 	}
-	
+
 	@PostMapping("/inscription/checkMail")
 	public String checkMail(@RequestParam(required=false) String adresseMail, HttpSession session) {
-		if (adresseMail !=  "" && adresseMail != null) {
-			
-		}
-		Utilisateur u = site.checkMail(adresseMail);
-		if (u == null) {
-			session.setAttribute("mailCorrect", "Y");
-			return "accueil";	
-		} else {
-			session.setAttribute("mailCorrect", "N");
-			return getInscription();
-		}
+		
+			Utilisateur u = site.checkMail(adresseMail);
+			if (u == null) {
+				session.setAttribute("mailCorrect", "Y");
+				return "accueil";	
+			} else {
+				session.setAttribute("mailCorrect", "N");
+				return getInscription();
+			}
 	}
-	
-	
+
+
 }

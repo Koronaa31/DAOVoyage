@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html
+	xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{ fragments/layout.html :: layout('Accueil', ~{ ::body }) }">
 <body id="body" class="container-fluid">
 	<div>
@@ -29,19 +30,27 @@
 		<form class="form-group row" method="POST" action="recherche">
 			<div class="col-4">Ville de départ
 				<select required id="v1" name="v1" class="form-control formWidth">
-					<option disabled selected value="N">Sélectionnez une ville de départ</option>
+					<option disabled selected th:value="N">Sélectionnez une ville de départ</option>
 					<option th:each="v : ${ villes }" th:value="${v.nom}">[[ ${ v.nom } ]]</option>
 				</select>
 			</div>
 
 			<div class="col-4">Ville d'arrivée
 				<select id="v2" name="v2" class="form-control formWidth">
+<<<<<<< Updated upstream
 					<option selected value="N">Toutes</option>
+=======
+					<option selected th:value="N">Toutes</option>
+>>>>>>> Stashed changes
 				</select>
 			</div>
 			<div class="col-4">Moyen de transport
 				<select id="t" name="t" class="form-control formWidth">
+<<<<<<< Updated upstream
 					<option selected value="N">Tous</option>
+=======
+					<option selected th:value="N">Toutes</option>
+>>>>>>> Stashed changes
 				</select>
 			</div>
 			<div id="rechercheButton" class="col-12">
@@ -50,7 +59,10 @@
 		</form>
 	</div>
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 	<script th:inline="javascript">
 	
 	var v2 = document.querySelector('[id="v2"]');
@@ -78,9 +90,9 @@
 				}
 			}
 		});
-		
 	});
 
+<<<<<<< Updated upstream
 	
 	$('#v2').change(function() {
 	
@@ -103,6 +115,25 @@
 		}
 	});
 	</script>
+=======
+	$('#v2').change(function() {
+		
+		var lt = t.options.length;
+		for(j=0;j<lt;j++) {t.remove(1);}
+	
+		transports = [];
+	
+		if(v2.selectedIndex != 0) {
+			
+			for(const t of [[${transports}]] ) {transports.push(t.nom);}
+			for(j=0;j<transports.length;j++) {
+				var c = document.createElement("option");
+				c.text = transports[j];
+				t.options.add(c, j+1);}
+		}
+	});
+</script>
+>>>>>>> Stashed changes
 </body>
 </html>
 
