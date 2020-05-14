@@ -31,6 +31,7 @@
 		</div> <br/>
 		<h2>Effectuer une nouvelle recherche</h2><br/>
 		<form class="form-group row" method="POST" action="recherche">
+			<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 			<div class="col-4">Ville de départ
 				<select required id="v1" name="v1" class="form-control formWidth">
 					<option disabled selected value="N">Sélectionnez une ville de départ</option>
@@ -68,10 +69,18 @@
 			
 			let ville1 = $('#v1 option:selected').val();
 			
+			let csrfName = $('#csrf').attr('name');
+			let csrfToken = $('#csrf').val();
+			
+			let data = {
+				v1: ville1
+			};
+
+			data[csrfName] = csrfToken;
+			
 			$.ajax('actVille2', {
 				type: 'POST',
-				data: { v1: ville1
-				},
+				data: data,
 				success: function(liste) {
 					var villes2 = JSON.parse(liste);
 					
@@ -114,13 +123,20 @@
 			let nomV2 = btnClicked.attr('v2');
 			let nomT = btnClicked.attr('t');
 			
-			$.ajax('ajoutPanier', {
-				type: 'POST',
-				data: {
+			let csrfName = $('#csrf').attr('name');
+			let csrfToken = $('#csrf').val();
+			
+			let data = {
 					nomV1: nomV1,
 					nomV2: nomV2,
 					nomT: nomT
-				},
+			};
+			
+			data[csrfName] = csrfToken;
+			
+			$.ajax('ajoutPanier', {
+				type: 'POST',
+				data: data,
 				success: function(nbPanier) {
 					//$('.showPanier').html('Accéder au panier (' + nbPanier + ')');
 					$('.showPanier').html(`Accéder au panier (${ nbPanier })`);

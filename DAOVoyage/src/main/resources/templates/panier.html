@@ -42,6 +42,7 @@
 	<div class="row">
 		<div class="col-6">
 			<form action="panier/paiement" method="POST">
+				<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
  				<input type="submit" name="action" value="Payer ma commande" class="payer btn btn-info" />
 			</form>
 		</div>
@@ -60,9 +61,18 @@
 		$('.supprimerVoyage').click(function() {
 			let i = this.parentNode.parentNode.rowIndex;
 			
+			let csrfName = $('#csrf').attr('name');
+			let csrfToken = $('#csrf').val();
+			
+			let data = {
+				i: i
+			};
+
+			data[csrfName] = csrfToken;
+			
 			$.ajax('panier/remove', {
 				type: 'POST',
-				data: {i: i},
+				data: data,
 				success: function(total) {
 					document.getElementById('table').deleteRow(i);
 					document.getElementById('prixPanier').innerHTML = total + ' €';

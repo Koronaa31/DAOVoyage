@@ -54,6 +54,7 @@
 				<br/>
 				<div class="row">
 					<form action="admin/ville" method="POST">
+						<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 						<label for="villes">Gérer la listes des villes disponibles à la vente</label><br/>
 						<input type="submit" value="Modifier les villes" id="villes" class="btn btn-info" />
 					</form>
@@ -61,6 +62,7 @@
 				<br/>
 				<div class="row">
 					<form action="admin/transport" method="POST">
+						<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 						<label for="transports">Gérer la listes des moyens de transport disponibles à la vente</label><br/>
 						<input type="submit" value="Modifier les transports" id="transports" class="btn btn-info" />
 					</form>
@@ -98,6 +100,7 @@
 							<h3>Ajouter une ville à la liste</h3>
 							
 							<form class="formLong" action="admin/ville/ajout" method="POST">
+								<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 								<table class="table tableau">
 									<thead class="thead-dark">
 										<tr>
@@ -147,7 +150,7 @@
 							
 									<tr th:each="t : ${transports}">
 										<td>
-											<a class="btn btn-outline-info" th:href="@{ admin/transport/{id}/supprimer(id=${t.id}) }">Supprimer</a>
+											<a class="supprimerTransport btn btn-outline-info" th:href="@{ admin/transport/{id}/supprimer(id=${t.id}) }">Supprimer</a>
 										</td>
 										<td>[[ ${t.nom} ]]</td>
 										<td>[[ ${t.prixAuKm} ]]</td>
@@ -160,6 +163,7 @@
 							<h3>Ajouter un moyen de transport à la liste</h3>
 							
 							<form class="formLong" action="admin/transport/ajout" method="POST">
+								<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 								<table class="table tableau">
 									<thead class="thead-dark">
 										<tr>
