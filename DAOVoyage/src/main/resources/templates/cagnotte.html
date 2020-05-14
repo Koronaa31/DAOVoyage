@@ -12,13 +12,14 @@
 				<div class="col-6">
 					<div>
 						<label>Client Initiateur</label>
-						<input class="form-control" type="text" th:placeholder="[[ ${ #authentication.name } ]]" readonly />
+						<input class="form-control" type="text" th:placeholder="${ #authentication.name }" readonly />
 					</div></br>
 					
 					<form class="form-group" method="POST" action="cagnotte">
+						<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 						<div class="form-group">
 							<label>Client Destinataire</label>
-							<input name="loginDestinataire" type="text" class="form-control" id="loginDest" aria-describedby="emailHelp">
+							<input required name="loginDestinataire" type="text" class="form-control" id="loginDest" aria-describedby="emailHelp">
 							<div th:if="${ cagnotteSuccess == 'N' }">
 								<font color="red">Ce destinataire n'existe pas</font>
 							</div>
@@ -35,13 +36,11 @@
 							</select>
 							
 							Ville d'arrivée
-							<select id="v2" name="v2" class="form-control formWidth">
-								<option selected value="N">Toutes</option>
+							<select required id="v2" name="v2" class="form-control formWidth">
 							</select>
 							
 							Moyen de transport
-							<select id="t" name="t" class="form-control formWidth">
-								<option selected value="N">Tous</option>
+							<select required id="t" name="t" class="form-control formWidth">
 							</select>
 							
 							<div id="rechercheButton" class="col-12">
@@ -66,6 +65,7 @@
 		<div class="row">
 			<div class="col-6">
 				<form method="POST" action="cagnotte">
+					<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 					<div class="form-group">
 						<label>Login du destinataire de la cagnotte</label>
 						<input name="loginDestinataire" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -96,6 +96,7 @@
 						<tr th:each="c : ${ cagnottesDestinataire }">
 							<td> 
 								<form method="POST" action="cagnotte">
+									<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 									<input type="number" step="0.01" th:max="${ c.sommeAPayer }" required placeholder="somme" name="sommePayee" /> 
 									<input type="hidden" name="action" value="sommePayee" />
 									<input type="hidden" name="cagnotteChoisie" th:value="${c.id}" />
@@ -217,10 +218,18 @@
 		
 		let ville1 = $('#v1 option:selected').val();
 		
+		let csrfName = $('#csrf').attr('name');
+		let csrfToken = $('#csrf').val();
+		
+		let data = {
+			v1: ville1
+		};
+
+		data[csrfName] = csrfToken;
+		
 		$.ajax('actVille2', {
 			type: 'POST',
-			data: { v1: ville1
-			},
+			data: data,
 			success: function(liste) {
 				var villes2 = JSON.parse(liste);
 				

@@ -1,9 +1,7 @@
 package fr.formation.controller;
 
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import fr.formation.model.Cagnotte;
 import fr.formation.model.Client;
-import fr.formation.model.Site;
-import fr.formation.model.Transport;
-import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
 import fr.formation.security.UserPrincipal;
 
@@ -39,18 +34,23 @@ public class CagnotteController extends SiteController {
 			@RequestParam (required = false) Double sommePayee,
 			@RequestParam (required = false) Integer cagnotteChoisie,
 			Model model,
-			Authentication auth) {
+			Authentication auth,
+			HttpSession session) {
 
+		UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+		
 		////////////////////////////////////////////////////////////////////////////////////
-		/////////////////////////////////// Cr�ation ///////////////////////////////////////
+		/////////////////////////////////// Création ///////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		if (action.equals("creation")) {
+			System.out.println("coucou");
 			model.addAttribute("aAfficher", "creation");
 			model.addAttribute("villes", site.getDaoVille().findAll());
 			model.addAttribute("transports", site.getDaoTransport().findAll());
+
 			try {
 				if (action2.equals("creationCagnotte")) {
-					UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+					
 					
 					Client initiateur = (Client) principal.getUtilisateur();
 					Client destinataire = (Client) site.getDaoUtilisateur().findByLogin(loginDestinataire);
@@ -97,7 +97,7 @@ public class CagnotteController extends SiteController {
 		else if (action.contentEquals("sommePayee")) {
 			site.participer(sommePayee,
 							site.getDaoCagnotte().findById(cagnotteChoisie).orElse(new Cagnotte()), 
-							(Client) session.getAttribute("client"));
+							(Client) principal.getUtilisateur());
 			return "redirect:/accueil";
 		}
 
@@ -106,9 +106,9 @@ public class CagnotteController extends SiteController {
 		////////////////////////////////////////////////////////////////////////////////////
 
 		else if (action.equals("archives")) {
-			Client client = (Client) session.getAttribute("client");
+			Client client = (Client) principal.getUtilisateur();
 			site.archives(client);
-			session.setAttribute("client", client);
+			session.setAttribute("client", (Client) principal.getUtilisateur());
 			model.addAttribute("aAfficher", "archives");
 		}
 		return "/cagnotte";	
