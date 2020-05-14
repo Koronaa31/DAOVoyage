@@ -6,23 +6,24 @@
 		<table class="table tableau">
 			<thead class="thead-dark">
 				<tr>
-					<td><strong>Sélectionner</strong></td>
-					<td><strong>Ville de départ</strong></td>
-					<td><strong>Ville d'arrivée</strong></td>
-					<td><strong>Moyen de transport</strong></td>
-					<td><strong>Durée</strong></td>
-					<td><strong>Prix</strong></td>
+					<th><strong>Sélectionner</strong></th>
+					<th><strong>Ville de départ</strong></th>
+					<th><strong>Ville d'arrivée</strong></th>
+					<th><strong>Moyen de transport</strong></th>
+					<th><strong>Durée</strong></th>
+					<th><strong>Prix</strong></th>
 				</tr>
 			</thead>
-
-			<tr th:each="voy : ${ recherche }">
-				<td> <input type="button" class="addPanier btn btn-outline-info" th:v1="${voy.v1.nom}" th:v2="${voy.v2.nom}" th:t="${voy.t.nom}" value="Ajouter au panier"></td>
-				<td>[[ ${ voy.v1.nom } ]]</td>
-				<td>[[ ${ voy.v2.nom } ]]</td>
-				<td>[[ ${ voy.t.nom } ]]</td>
-				<td>[[ ${ voy.duree } ]]</td>
-				<td>[[ ${ voy.prix } ]] €</td>
-			</tr>
+			<tbody>
+				<tr th:each="voy : ${ recherche }">
+					<td> <input type="button" class="addPanier btn btn-outline-info" th:v1="${voy.v1.nom}" th:v2="${voy.v2.nom}" th:t="${voy.t.nom}" value="Ajouter au panier"></td>
+					<td>[[ ${ voy.v1.nom } ]]</td>
+					<td>[[ ${ voy.v2.nom } ]]</td>
+					<td>[[ ${ voy.t.nom } ]]</td>
+					<td>[[ ${ voy.duree } ]]</td>
+					<td>[[ ${ voy.prix } ]] €</td>
+				</tr>
+			</tbody>
 		</table> <br/>
 		<div class="row col-12 boutonCentre">
 		<a href="panier"> 
@@ -55,7 +56,46 @@
 		</form>
 		
 		
-	
+		<script th:inline="javascript">
+		
+		const getCellValue = (tr, idx) => {
+			if (idx != 5 && idx != 4) {
+				return tr.children[idx].innerText || tr.children[idx].textContent;
+			}
+			
+			else if (idx == 5) {	//colonne 'prix'
+				let trd1 = tr.children[idx].innerText;
+				let tr1 = trd1.slice(0,trd1.indexOf('.'))
+				let trd2 = tr.children[idx].textContent;
+				let tr2 = trd2.slice(0,trd2.indexOf('.'))
+				
+				return tr1 || tr2;
+			}
+			
+			else if (idx == 4) {	//colonne 'durée'
+				let trd1 = tr.children[idx].innerText;
+				let tr1 = trd1.slice(0,trd1.indexOf('h')-1)
+				let trd2 = tr.children[idx].textContent;
+				let tr2 = trd2.slice(0,trd2.indexOf('h')-1)
+				
+				return tr1 || tr2;
+			}
+		};
+
+		const comparer = (idx, asc) => (a, b) => ((val1, val2) => 
+		    val1 !== '' && val2 !== '' && !isNaN(val1) && !isNaN(val2) ? val1 - val2 : val1./*toString().*/localeCompare(val2)
+		    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+		
+		document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+			const table = th.closest('table');
+			const tbody = table.querySelector('tbody');
+			Array.from(tbody.querySelectorAll('tr'))
+				.sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+		        .forEach(tr => tbody.appendChild(tr) );
+		})));
+		
+		</script>
+		
 		<script th:inline="javascript">
 		
 		var v2 = document.querySelector('[id="v2"]');

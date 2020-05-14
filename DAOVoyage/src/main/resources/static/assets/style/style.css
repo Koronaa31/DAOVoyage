@@ -153,6 +153,10 @@ footer {
 	display:table-cell;
 }
 
+th {
+	cursor: pointer;
+}
+
 .formLong {
 	width:100%;
 }
