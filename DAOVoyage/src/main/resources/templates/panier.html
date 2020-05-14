@@ -19,10 +19,7 @@
 		
 			<tr th:each="voy,i : ${ panier }" >
 				<td>
-<!-- 					<form action="panier/remove" method="POST"> -->
-<!-- 						<input type="hidden" name="nb" th:value="${i.index}" /> -->
-						<input type="submit" class="supprimerVoyage btn btn-outline-info" value="Supprimer" th:index="${i.index}" />
-<!-- 					</form> -->
+					<input type="submit" class="supprimerVoyage btn btn-outline-info" value="Supprimer" th:index="${i.index}" />
 				</td>
 				<td>[[ ${voy.v1.nom} ]]</td>
 				<td>[[ ${voy.v2.nom} ]]</td>

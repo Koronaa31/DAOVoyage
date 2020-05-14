@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +22,7 @@ import fr.formation.model.Transport;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/transport")
+@PreAuthorize("hasRole('ADMIN')")
 public class TransportApiController extends SiteController {
 	
 	@GetMapping
@@ -34,7 +36,7 @@ public class TransportApiController extends SiteController {
 	}
 
 	@PostMapping
-	public Transport add(@Valid @RequestBody Transport transport, BindingResult result) {
+	public Transport add(@RequestBody Transport transport) {
 		this.site.getDaoTransport().save(transport);
 		return transport;
 	}
