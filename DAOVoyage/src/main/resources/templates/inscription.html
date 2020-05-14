@@ -17,6 +17,7 @@
 						<div>Veuillez renseigner les champs suivants :</div>
 						<br />
 						<form id="form" method="POST" action="inscription">
+							<input type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 							<div>
 								</br> <input class="form-control" type="text" name="login"
 									th:value="${session.login}" placeholder="Identifiant" required />

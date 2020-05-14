@@ -26,30 +26,12 @@ public class AccueilController extends SiteController {
 		return "accueil";
 	}
 	
-	@PostMapping("/accueil/connect")
-	public String checkConnect(@RequestParam String login,
-							   @RequestParam String password,
-								HttpSession session) {
-		Utilisateur u = site.checkConnect(login, password);
-		if (u != null) {
-			session.setAttribute("client", u);
-			session.setAttribute("error", "N");
-			if (u instanceof Admin) {
-				return "redirect:/admin";
-			}
-		} else {session.setAttribute("error", "Y");}
-		return "redirect:/accueil";
-	}
-	
 	@PostMapping("/accueil/disconnect")
 	public String invalidate(Model model, HttpSession session) {
 		site.getPanier().clear();
 		session.invalidate();
 		return "redirect:/accueil";
 	}
-	
-	
-	
 	
 	@ModelAttribute("villes")
 	public List<Ville> villes(){
@@ -60,6 +42,5 @@ public class AccueilController extends SiteController {
 	public List<Transport> transports(){
 		return site.getDaoTransport().findAll();
 	}
-	
 	
 }

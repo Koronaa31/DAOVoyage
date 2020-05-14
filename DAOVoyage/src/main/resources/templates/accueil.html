@@ -27,6 +27,7 @@
 		<br />
 
 		<form class="form-group row" method="POST" action="recherche">
+			<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
 			<div class="col-4">Ville de départ
 				<select required id="v1" name="v1" class="form-control formWidth">
 					<option disabled selected value="N">Sélectionnez une ville de départ</option>
@@ -63,12 +64,22 @@
 			v2.remove(1);}
 		
 		let ville1 = $('#v1 option:selected').val();
+
+		let csrfName = $('#csrf').attr('name');
+		let csrfToken = $('#csrf').val();
+		
+		let data = {
+			v1: ville1
+		};
+
+		data[csrfName] = csrfToken;
+		
 		
 		$.ajax('actVille2', {
 			type: 'POST',
-			data: { v1: ville1
-			},
+			data: data,
 			success: function(liste) {
+				console.log('cest partit');
 				var villes2 = JSON.parse(liste);
 				
 				for (j = 0; j < villes2.length; j++) {

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import fr.formation.model.Site;
 import fr.formation.model.Transport;
 import fr.formation.model.Ville;
 import fr.formation.model.Voyage;
+import fr.formation.security.UserPrincipal;
 
 @Controller
 public class CagnotteController extends SiteController {
@@ -37,7 +39,7 @@ public class CagnotteController extends SiteController {
 			@RequestParam (required = false) Double sommePayee,
 			@RequestParam (required = false) Integer cagnotteChoisie,
 			Model model,
-			HttpSession session) {
+			Authentication auth) {
 
 		////////////////////////////////////////////////////////////////////////////////////
 		/////////////////////////////////// Cr�ation ///////////////////////////////////////
@@ -48,7 +50,9 @@ public class CagnotteController extends SiteController {
 			model.addAttribute("transports", site.getDaoTransport().findAll());
 			try {
 				if (action2.equals("creationCagnotte")) {
-					Client initiateur = (Client) session.getAttribute("client");
+					UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+					
+					Client initiateur = (Client) principal.getUtilisateur();
 					Client destinataire = (Client) site.getDaoUtilisateur().findByLogin(loginDestinataire);
 					if (destinataire == null) {
 						model.addAttribute("cagnotteSuccess", "N");

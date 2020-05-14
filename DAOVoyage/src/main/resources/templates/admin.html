@@ -31,8 +31,8 @@
 	
 		<main class="row">
 			<div class="bandeauGauche col-2">
-				<div th:if="${ session.client != null }" id="Welcome">
-					Bienvenue [[ ${ session.client.login } ]].
+				<div id="Welcome">
+					Bienvenue [[ ${ #authentication.name } ]]
 				</div>
 				
 				<div id="seDeconnecter">
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 			<div class="centre col-10">
-				<h1>[[ ${session.client.login} ]], Bienvenue sur l'espace administrateur.</h1>
+				<h1>[[ ${ #authentication.name } ]], Bienvenue sur l'espace administrateur.</h1>
 				<br/>
 				<div class="row">
 					<form action="admin/ville" method="POST">
