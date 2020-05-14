@@ -99,34 +99,32 @@
 						<div class="row">		
 							<h3>Ajouter une ville à la liste</h3>
 							
-							<form class="formLong" action="admin/ville/ajout" method="POST">
-								<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
-								<table class="table tableau">
-									<thead class="thead-dark">
-										<tr>
-											<td class="colonne3"></td>
-											<td class="colonne3"><strong>Ville</strong></td>
-											<td class="colonne3"><strong>Latitude</strong></td>
-											<td class="colonne3"><strong>Longitude</strong></td>
-										</tr>
-									</thead>
-									
+							<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
+							<table class="table tableau">
+								<thead class="thead-dark">
 									<tr>
-										<td>
-											<input type="submit" class="ajouterVille btn btn-outline-info" value="Ajouter" />
-										</td>
-										<td>
-											<input type="text" required placeholder="Nom" id="nom_ville" name="nom" />
-										</td>
-										<td>
-											<input type="number" step="0.1" required placeholder="Latitude" id="latitude" name="latitude" />
-										</td>
-										<td>
-											<input type="number" step="0.1" required placeholder="Longitude" id="longitude" name="longitude" />
-										</td>
-									</tr>	
-								</table>
-							</form>
+										<td class="colonne3"></td>
+										<td class="colonne3"><strong>Ville</strong></td>
+										<td class="colonne3"><strong>Latitude</strong></td>
+										<td class="colonne3"><strong>Longitude</strong></td>
+									</tr>
+								</thead>
+								
+								<tr>
+									<td>
+										<button class="ajouterVille btn btn-outline-info">Ajouter</button>
+									</td>
+									<td>
+										<input type="text" required placeholder="Nom" id="nomVille" name="nom" />
+									</td>
+									<td>
+										<input type="number" step="0.1" required placeholder="Latitude" id="latitude" name="latitude" />
+									</td>
+									<td>
+										<input type="number" step="0.1" required placeholder="Longitude" id="longitude" name="longitude" />
+									</td>
+								</tr>	
+							</table>
 							<div class="row"><a target="_blank" href="https://www.coordonnees-gps.fr/">Chercher les coordonnées d'une ville</a></div>	
 						</div>
 					</div>
@@ -141,10 +139,10 @@
 							<table id="tableTransport" class="table tableau">
 								<thead class="thead-dark">
 									<tr>
-										<th class="colonne3"></th>
-										<th class="colonne3"><strong>Transport</strong></th>
-										<th class="colonne3"><strong>Prix au km (€)</strong></th>
-										<th class="colonne3"><strong>Vitesse (km/h)</strong></th>
+										<td class="colonne3"></td>
+										<td class="colonne3"><strong>Transport</strong></td>
+										<td class="colonne3"><strong>Prix au km (€)</strong></td>
+										<td class="colonne3"><strong>Vitesse (km/h)</strong></td>
 									</tr>
 								</thead>
 								<tbody>
@@ -163,41 +161,65 @@
 						<div class="row">	
 							<h3>Ajouter un moyen de transport à la liste</h3>
 							
-<!-- 							<form class="formLong" action="admin/transport/ajout" method="POST"> -->
-								<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
-								<table class="table tableau">
-									<thead class="thead-dark">
-										<tr>
-											<td class="colonne3"></td>
-											<td class="colonne3"><strong>Transport</strong></td>
-											<td class="colonne3"><strong>Prix au km (€)</strong></td>
-											<td class="colonne3"><strong>Vitesse (km/h)</strong></td>
-										</tr>
-									</thead>
-									
+							<input id="csrf" type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
+							<table class="table tableau">
+								<thead class="thead-dark">
 									<tr>
-										<td>
-<!-- 											<input type="submit" class="btn btn-outline-info" value="Ajouter" /> -->
-											<button class="ajouterTransport btn btn-outline-info">Ajax</button>
-										</td>
-										<td>
-											<input type="text" required placeholder="Nom" id="nomTransport" name="nom" />
-										</td>
-										<td>
-											<input type="number" step="0.01" required placeholder="Prix" id="prix" name="prixAuKm" />
-										</td>
-										<td>
-											<input type="number" step="1" required placeholder="Vitesse" id="vitesse" name="vitesse" />
-										</td>
-									</tr>	
-								</table>
-<!-- 							</form> -->
+										<td class="colonne3"></td>
+										<td class="colonne3"><strong>Transport</strong></td>
+										<td class="colonne3"><strong>Prix au km (€)</strong></td>
+										<td class="colonne3"><strong>Vitesse (km/h)</strong></td>
+									</tr>
+								</thead>
+								
+								<tr>
+									<td>
+										<button class="ajouterTransport btn btn-outline-info">Ajouter</button>
+									</td>
+									<td>
+										<input type="text" required placeholder="Nom" id="nomTransport" name="nom" />
+									</td>
+									<td>
+										<input type="number" step="0.01" required placeholder="Prix" id="prix" name="prixAuKm" />
+									</td>
+									<td>
+										<input type="number" step="1" required placeholder="Vitesse" id="vitesse" name="vitesse" />
+									</td>
+								</tr>	
+							</table>
 						</div>			
 					</div>
 				</th:block>
 			</div>
 			
 			<script>
+			
+				$('.ajouterVille').click(function() {
+					
+					let villeAAjouter = {
+							nom: $('#nomVille').val(),
+							latitude: $('#latitude').val(),
+							longitude: $('#longitude').val(),
+					};
+					
+					let csrfToken = $('#csrf').val();
+					
+					$.ajax('api/ville', {
+						type: 'POST',
+						data: JSON.stringify(villeAAjouter),
+						dataType: 'json',
+						contentType: 'application/json',
+						headers: {
+							'X-CSRF-Token': csrfToken
+						},
+						success: function(ville) {
+							var trHTML = $('<tr />');
+							trHTML.html('<td><button class="supprimerVille btn btn-outline-info" th:idVille="${v.id}" >Supprimer</button></td><td>' + ville.nom + '</td><td>' + ville.latitude + '</td><td>' + ville.longitude + '</td>');
+							$('#tableVille tbody').append(trHTML);
+						}
+					});
+				});
+			
 				$('.supprimerVille').click(function() {
 					let btnClicked = $(this);
 					
