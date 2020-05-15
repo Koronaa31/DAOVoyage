@@ -1,8 +1,8 @@
 <html th:fragment="bandeauGauche">
-	<div sec:authorize="hasRole('CLIENT')" id="Welcome">Bienvenue
+	<div sec:authorize="hasAnyRole('CLIENT','ADMIN')" id="Welcome">Bienvenue
 		[[ ${ #authentication.name } ]]</div>
 
-	<div sec:authorize="!hasRole('CLIENT')">
+	<div sec:authorize="anonymous">
 		<div id="inscription">
 			<a href="inscription">Inscription</a>
 		</div>
@@ -19,7 +19,7 @@
 	<div th:if="${ param.error != null }" id="error">Login/Password
 		incorrects !</div>
 
-	<div id="panier">
+	<div sec:authorize="hasRole('CLIENT') or anonymous" id="panier">
 		<a href="panier">Voir mon panier</a><br />
 	</div>
 
@@ -47,14 +47,14 @@
 				</div>
 			</div>
 		</form>
+	</div>
 
-		<div id="seDeconnecter">
-			<form method="POST" th:action="@{/logout}">
-				<input type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
-				<input type="hidden" name="action" value="seDeconnecter"> <input
-					type="submit" class="btn btn-danger" value="Log out" />
-			</form>
-		</div>
+	<div sec:authorize="hasAnyRole('ADMIN','CLIENT')" id="seDeconnecter">
+		<form method="POST" th:action="@{/logout}">
+			<input type="hidden" th:name="${ _csrf.parameterName }" th:value="${ _csrf.token }" />
+			<input type="hidden" name="action" value="seDeconnecter"> <input
+				type="submit" class="btn btn-danger" value="Log out" />
+		</form>
 	</div>
 
 	<div id="sponsor" class="bandeauSponsor">
