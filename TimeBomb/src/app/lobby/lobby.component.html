@@ -1,1 +1,29 @@
-<p>lobby works!</p>
+<h2>Créer une partie</h2>
+<input type="text" id="name" [(ngModel)]="match.name" />
+<input type="number" id="size" [(ngModel)]="match.size" />
+<button (click)="ajouterMatch()">Nouvelle partie</button>
+
+
+
+<h2>Parties en cours</h2>
+
+<table>
+  <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Size</th>
+    <th>State</th>
+    <th></th>
+  </thead>
+
+  <tbody *ngFor="let match of srvMatch.matches">
+    <td>{{ match.id }}</td>
+    <td>{{ match.name }}</td>
+    <td>{{ match.size }}</td>
+    <td>{{ match.state }}</td>
+    <td>
+      <button>Rejoindre</button>
+      <button (click)="supprimerMatch(match)">Supprimer</button>
+    </td>
+  </tbody>
+</table>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatchService } from '../match.service';
+import { Match } from '../match';
 
 @Component({
   selector: 'app-lobby',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LobbyComponent implements OnInit {
 
-  constructor() { }
+  public match = new Match();
+
+  constructor(public srvMatch: MatchService) { }
 
   ngOnInit(): void {
+    this.srvMatch.reload();
+  }
+
+  public ajouterMatch(){
+    this.srvMatch.add(this.match);
+    this.match = new Match();
+  }
+
+  public supprimerMatch(match: Match){
+    this.srvMatch.delete(match);
   }
 
 }
