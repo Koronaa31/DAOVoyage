@@ -5,5 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class AppConfigService {
 
+  public url: string = "http://176.143.99.66:8080/api";
+
   constructor() { }
 }
