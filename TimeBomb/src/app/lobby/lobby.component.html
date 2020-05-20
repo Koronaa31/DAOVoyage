@@ -4,7 +4,6 @@
 <button (click)="ajouterMatch()">Nouvelle partie</button>
 
 
-
 <h2>Parties en cours</h2>
 
 <table>
@@ -23,7 +22,7 @@
     <td>{{ match.state }}</td>
     <td>
       <button>Rejoindre</button>
-      <button (click)="supprimerMatch(match)">Supprimer</button>
+      <button *ngIf="srvUser.user.id == match.owner.id" (click)="supprimerMatch(match)">Supprimer</button>
     </td>
   </tbody>
 </table>

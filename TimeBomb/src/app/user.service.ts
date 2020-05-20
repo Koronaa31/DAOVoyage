@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppConfigService } from './app-config.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { User } from './user';
 
 @Injectable({
@@ -9,9 +10,10 @@ import { User } from './user';
 export class UserService {
   public apiUrl: string;
   public user: User;
+  public token;
   public newUser: User;
 
-  constructor( private appConfig: AppConfigService, private http: HttpClient ) {
+  constructor( private appConfig: AppConfigService, private http: HttpClient, private router: Router ) {
     this.apiUrl = `${this.appConfig.url}/users`
   }
 
@@ -24,7 +26,9 @@ export class UserService {
     this.http.post<User>(`${this.apiUrl}/login`, user)
       .subscribe(respUser => {
         this.user = respUser;
-        location.replace(`lobby`);
+        this.user.username = user.username;
+        this.user.password = user.password;
+        this.router.navigate(['/lobby']);
         },
         error => alert('Identifiants incorrects'));
   }

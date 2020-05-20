@@ -15,7 +15,7 @@ export class CardService {
   }
 
   public reload() {
-    this.http.get<Array<Card>>(this.apiUrl)
-      .subscribe( resp => this.cards = resp.match.deck );
+  /*  this.http.get<Array<Card>>(this.apiUrl)
+      .subscribe( resp => this.cards = resp.match.deck );*/
   }
 }
