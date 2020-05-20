@@ -8,21 +8,22 @@ import { User } from './user';
 })
 export class UserService {
   public apiUrl: string;
-  public users: Array<User> = [];
+  public user: User;
+  public newUser: User;
 
   constructor( private appConfig: AppConfigService, private http: HttpClient ) {
     this.apiUrl = `${this.appConfig.url}/users`
   }
 
-  public subscribe(user) {
-    this.http.post<User>(`${this.apiUrl}/subscribe`, user)
-      .subscribe(user => this.users.push(user));
+  public subscribe(newUser) {
+    this.http.post<User>(`${this.apiUrl}/subscribe`, newUser)
+      .subscribe(respUser => this.newUser = respUser);
   }
 
   public connect(user) {
     this.http.post<User>(`${this.apiUrl}/login`, user)
-      .subscribe(user => {
-        this.users.push(user);
+      .subscribe(respUser => {
+        this.user = respUser;
         location.replace(`lobby`);
         },
         error => alert('Identifiants incorrects'));
