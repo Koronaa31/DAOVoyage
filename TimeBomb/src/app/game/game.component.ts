@@ -10,11 +10,10 @@ import { UserService } from '../user.service';
 })
 export class GameComponent implements OnInit {
 
-  constructor(private srvCard: CardService, private srvMatch: MatchService, private srvUser: UserService) { }
+  constructor(private srvCard: CardService, private srvUser: UserService, private srvMatch?: MatchService) { }
 
   ngOnInit() {
-    this.srvCard.reload();
-    console.log(this.srvCard.cards);
+    this.srvMatch.reload();
   }
 
 }
