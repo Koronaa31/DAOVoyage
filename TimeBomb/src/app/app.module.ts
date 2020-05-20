@@ -10,8 +10,12 @@ import { LobbyComponent } from './lobby/lobby.component';
 import { GameComponent } from './game/game.component';
 
 const routes: Routes = [
-  { path: 'lobby', component: LobbyComponent},
-]
+  { path: 'home', component: HomeComponent },
+  { path: 'lobby', component: LobbyComponent },
+  { path: 'game', component: GameComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', component: HomeComponent }
+];
 
 @NgModule({
   declarations: [

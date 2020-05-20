@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { CardService } from '../card.service';
+import { MatchService } from '../match.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-game',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
-  constructor() { }
+  constructor(private srvCard: CardService, private srvMatch: MatchService, private srvUser: UserService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.srvCard.reload();
+    console.log(this.srvCard.cards);
   }
 
 }
