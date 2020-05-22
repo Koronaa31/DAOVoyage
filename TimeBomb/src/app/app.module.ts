@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { GameComponent } from './game/game.component';
+import { PlayerComponent } from './player/player.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -22,15 +23,17 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     LobbyComponent,
-    GameComponent
+    GameComponent,
+    PlayerComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
+    BrowserModule, FormsModule,
     RouterModule.forRoot(routes),
-    HttpClientModule, FormsModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  static url: string = "http://176.143.99.66:8080/api";
+}
