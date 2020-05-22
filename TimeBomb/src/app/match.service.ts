@@ -27,6 +27,11 @@ export class MatchService {
       .subscribe(respMatches => this.matches = respMatches);
   }
 
+  public reloadMatch(match: Match) {
+    this.http.get<Array<Match>>(`${ this.apiUrl }/${ match.id }`, this.appConfig.options())
+      .subscribe(resp => { return resp });
+  }
+
   public add(match: Match) {
     this.http.post<Match>(this.apiUrl, match, this.appConfig.options())
       .subscribe(respMatch => this.matches.push(respMatch));

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from './user';
+import { AppModule } from './app.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  public url: string = "http://176.143.99.66:8080/api/users";
+  public url: string = AppModule.url + "/users";
   public user: User;
   public token;
   public newUser: User;
