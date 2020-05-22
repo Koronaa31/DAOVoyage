@@ -18,7 +18,7 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let match of srvMatch.matches" [style.background-color]="match.id | myMatch: srvMatch.myMatch.id">
+    <tr *ngFor="let match of srvMatch.matches" [style.background-color]="match.id | myMatch: srvMatch.myMatch?.id">
       <td>{{ match.id }}</td>
       <td>{{ match.name }}</td>
       <td>{{ match.size }}</td>
