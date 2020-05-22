@@ -22,12 +22,18 @@ export class LobbyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    alert('init');
     fetch("http://176.143.99.66:8080/api/matches/sse-stream",
           this.appConfig.httpOptionsSse)
       .then(resp => {
+        try{
+          alert('sse');
         this.sseService.
           getServerSentEvent("http://176.143.99.66:8080/api/matches/sse-stream")
             .subscribe(data => console.log(data));
+          } catch {
+            alert('oups');
+            this.ngOnInit();}
       });
 
     this.srvMatch.reload();

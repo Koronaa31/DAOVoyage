@@ -20,7 +20,7 @@ export class SseService {
 
       eventSource.onerror = error => {
         this._zone.run(() => {
-          observer.error(error);
+          observer.throw(error);
         });
       };
 

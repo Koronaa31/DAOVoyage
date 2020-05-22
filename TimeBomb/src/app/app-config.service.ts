@@ -16,7 +16,7 @@ export class AppConfigService {
   constructor(private injector: Injector, private srvUser: UserService) {
     this.httpOptionsSse = { headers: {
       Authorization: 'Basic ' + btoa(
-        `${ srvUser.user.username }:${ srvUser.user.password }`)
+        `Koronaa:sopra`)
     }};
 
   }
