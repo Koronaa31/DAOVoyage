@@ -17,7 +17,10 @@ export class UserService {
 
   public subscribe(newUser) {
     this.http.post<User>(`${this.url}/subscribe`, newUser)
-      .subscribe(respUser => this.newUser = respUser);
+      .subscribe(respUser => {
+        this.newUser = respUser;
+        alert('Inscription validée... Go connexion')
+      });
   }
 
   public connect(user) {

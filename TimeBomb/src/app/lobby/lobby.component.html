@@ -8,21 +8,25 @@
 
 <table>
   <thead>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Size</th>
-    <th>State</th>
-    <th></th>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Size</th>
+      <th>State</th>
+      <th></th>
+    </tr>
   </thead>
 
-  <tbody *ngFor="let match of srvMatch.matches">
-    <td>{{ match.id }}</td>
-    <td>{{ match.name }}</td>
-    <td>{{ match.size }}</td>
-    <td>{{ match.state }}</td>
-    <td>
-      <button>Rejoindre</button>
-      <button *ngIf="srvUser.user.id == match.owner.id" (click)="supprimerMatch(match)">Supprimer</button>
-    </td>
+  <tbody>
+    <tr *ngFor="let match of srvMatch.matches">
+      <td>{{ match.id }}</td>
+      <td>{{ match.name }}</td>
+      <td>{{ match.size }}</td>
+      <td>{{ match.state }}</td>
+      <td>
+        <button>Rejoindre</button>
+        <button *ngIf="srvUser.user.id == match.owner.id" (click)="supprimerMatch(match)">Supprimer</button>
+      </td>
+    </tr>
   </tbody>
 </table>

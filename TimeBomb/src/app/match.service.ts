@@ -34,10 +34,6 @@ export class MatchService {
 
   public delete(match: Match) {
     this.http.delete<Boolean>(`${ this.apiUrl }/${ match.id }`, this.appConfig.options())
-      .subscribe(resp => {
-        if (resp) {
-          this.reload();
-        }
-      });
+      .subscribe(resp => this.matches.splice(this.matches.indexOf(match), 1));
   }
 }

@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
     this.newUser = new User();
   }
 
-  public connection() {
+  public connexion() {
     this.srvUser.connect(this.user);
     this.user = new User();
   }
