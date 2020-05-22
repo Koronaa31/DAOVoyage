@@ -1,11 +1,10 @@
 <h2>Créer une partie</h2>
 <input type="text" id="name" [(ngModel)]="match.name" />
-<input type="number" id="size" [(ngModel)]="match.size" />
+<input type="number" max="8" min="4" id="size" [(ngModel)]="match.size" />
 <button (click)="ajouterMatch()">Nouvelle partie</button>
 
 
 <h2>Parties en cours</h2>
-
 <table>
   <thead>
     <tr>
@@ -13,19 +12,21 @@
       <th>Name</th>
       <th>Size</th>
       <th>State</th>
+      <th>Players</th>
       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <tr *ngFor="let match of srvMatch.matches">
+    <tr *ngFor="let match of srvMatch.matches" [style.background-color]="match.id | myMatch: srvMatch.myMatch.id">
       <td>{{ match.id }}</td>
       <td>{{ match.name }}</td>
       <td>{{ match.size }}</td>
       <td>{{ match.state }}</td>
+      <td>{{ match.players.length }}/{{ match.size }}</td>
       <td>
-        <button>Rejoindre</button>
-        <button *ngIf="srvUser.user.id == match.owner.id" (click)="supprimerMatch(match)">Supprimer</button>
+        <button (click)="rejoindreMatch(match)">Rejoindre</button>
+        <button *ngIf="srvUser.user?.id == match.owner.id" (click)="supprimerMatch(match)">Supprimer</button>
       </td>
     </tr>
   </tbody>

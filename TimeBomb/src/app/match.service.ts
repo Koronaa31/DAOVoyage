@@ -13,6 +13,7 @@ export class MatchService {
 
   private apiUrl: string = "";
   public matches: Array<Match> = null;
+  public myMatch: Match = null;
   public httpOptions: Object = null;
   public cards: Array<Card> = null;
 
@@ -32,13 +33,33 @@ export class MatchService {
       .subscribe(resp => { return resp });
   }
 
+  public mine() {
+    this.http.get<Match>(`${ this.apiUrl }/mine`, this.appConfig.options())
+      .subscribe(resp => {
+        this.myMatch = resp;
+      });
+  }
+
   public add(match: Match) {
     this.http.post<Match>(this.apiUrl, match, this.appConfig.options())
       .subscribe(respMatch => this.matches.push(respMatch));
   }
 
+  public update(match: Match) {
+    this.http.put<Match>(`${ this.apiUrl }/${ match.id }`, null, this.appConfig.options())
+      .subscribe(resp => {
+        this.myMatch = resp;
+        this.reload();
+      });
+  }
+
   public delete(match: Match) {
     this.http.delete<Boolean>(`${ this.apiUrl }/${ match.id }`, this.appConfig.options())
       .subscribe(resp => this.matches.splice(this.matches.indexOf(match), 1));
+  }
+
+  public sse(){
+    this.http.get(`${ this.apiUrl }/sse-stream`)
+    .subscribe();
   }
 }

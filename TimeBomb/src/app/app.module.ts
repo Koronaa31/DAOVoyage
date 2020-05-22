@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { LobbyComponent } from './lobby/lobby.component';
 import { GameComponent } from './game/game.component';
 import { PlayerComponent } from './player/player.component';
+import { MyMatchPipe } from './my-match.pipe';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
     HomeComponent,
     LobbyComponent,
     GameComponent,
-    PlayerComponent
+    PlayerComponent,
+    MyMatchPipe
   ],
   imports: [
     BrowserModule, FormsModule,
